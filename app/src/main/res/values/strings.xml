@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">DalConnect</string>
     <string-array name="buildings">
-
     </string-array>
 </resources>

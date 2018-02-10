@@ -17,6 +17,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".ListViewActivity"></activity>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBKuzf-zFkKXc5_zWM1waT9EOQOaH-ii-Y"/>
     </application>
 
 </manifest>
