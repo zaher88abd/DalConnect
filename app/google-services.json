@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "445101017756",
+    "firebase_url": "https://dalconnect-shared.firebaseio.com",
+    "project_id": "dalconnect-shared",
+    "storage_bucket": "dalconnect-shared.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:445101017756:android:9a00629575c21407",
+        "android_client_info": {
+          "package_name": "ca.connect.dal.dalconnect"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "445101017756-54qikco27vccouksotjar8ulfkqa98nc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCT6epnCC_CPj0_NGc9tc-p74JL8Q8kA9k"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
