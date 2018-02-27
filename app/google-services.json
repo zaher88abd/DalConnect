@@ -15,24 +15,16 @@
       },
       "oauth_client": [
         {
+          "client_id": "668110384855-79sq3bva3vu1jntlknv0qg5tmejhuu48.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ca.connect.dal.dalconnect",
+            "certificate_hash": "7356fb286e36f1e59f344d17d1ac8743697d28ec"
+          }
+        },
+        {
           "client_id": "668110384855-31cdcas18l6qrev4fiqmcu8coa2fjcvk.apps.googleusercontent.com",
           "client_type": 3
-        },
-        {
-          "client_id": "668110384855-g2kr432m9mljo7mg4arucsga9cq4ae69.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "ca.connect.dal.dalconnect",
-            "certificate_hash": "8c3fc80ffdbc02de53c150a26433cfdaa3c558dc"
-          }
-        },
-        {
-          "client_id": "668110384855-22fojcl21bor3bjsn366p56qeik4mq4s.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "ca.connect.dal.dalconnect",
-            "certificate_hash": "a928a1bc99ac52a0101a67e730711d8792751957"
-          }
         },
         {
           "client_id": "668110384855-pv549u2s18s6hnm2sfiovvldjg6ulg7o.apps.googleusercontent.com",
