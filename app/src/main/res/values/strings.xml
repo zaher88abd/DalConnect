@@ -2,5 +2,6 @@
     <string name="app_name">DalConnect</string>
     <string-array name="buildings">
         <item>LSC,44.6357336,-63.5939558</item>
+        <item>Killam Memorial library (KML),44.637291,-63.591219</item>
     </string-array>
 </resources>
