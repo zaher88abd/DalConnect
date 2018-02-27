@@ -81,10 +81,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                            startActivity(new Intent(getApplicationContext(),profileActivity.class)); //profile activity here
 
 
-                        //uder registred succcefulluy
-                          // Toast.makeText(MainActivity.this, "registred sucessfully",Toast.LENGTH_SHORT).show();
-                         //  progressDialog.cancel();
-
                        } else {
                            Toast.makeText(MainActivity.this, "failed to register",Toast.LENGTH_SHORT).show();
                            progressDialog.cancel();
@@ -102,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (view == textViewSignin) {
             startActivity(new Intent(this,loginActivity.class));
-            ///login activity
+
         }
     }
 }

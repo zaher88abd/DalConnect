@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,21 +10,139 @@
     tools:context="ca.connect.dal.dalconnect.profileActivity">
 
 
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="login page"
+            android:text="Enter additional information"
             android:id="@+id/textViewUserEmail"
             android:layout_gravity="center_horizontal"/>
-
+        <EditText
+            android:id="@+id/editTextUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:ems="10"
+            android:background="@android:color/transparent"
+            android:drawablePadding="12dp"
+            android:padding="8dp"
+            android:hint="Enter your full Username"
+            android:textColorHint="@android:color/black"
+            android:maxLines="1"
+            android:drawableStart="@drawable/icon2"
+            android:layout_marginTop="4dp"
+            android:layout_margin="5dp"
+            android:textColor="@android:color/black"/>
+        <EditText
+            android:id="@+id/editTextDalid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:ems="10"
+            android:background="@android:color/transparent"
+            android:drawablePadding="12dp"
+            android:padding="8dp"
+            android:hint="Enter your Dal ID"
+            android:textColorHint="@android:color/black"
+            android:maxLines="1"
+            android:drawableStart="@drawable/icon2"
+            android:layout_marginTop="4dp"
+            android:layout_margin="5dp"
+            android:textColor="@android:color/black"/>
+        <EditText
+            android:id="@+id/editTextCountry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:ems="10"
+            android:background="@android:color/transparent"
+            android:drawablePadding="12dp"
+            android:padding="8dp"
+            android:hint="Enter your Country"
+            android:textColorHint="@android:color/black"
+            android:maxLines="1"
+            android:drawableStart="@drawable/icon2"
+            android:layout_marginTop="4dp"
+            android:layout_margin="5dp"
+            android:textColor="@android:color/black"/>
+        <EditText
+            android:id="@+id/editTextProgram"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:ems="10"
+            android:background="@android:color/transparent"
+            android:drawablePadding="12dp"
+            android:padding="8dp"
+            android:hint="Enter your program name"
+            android:textColorHint="@android:color/black"
+            android:maxLines="1"
+            android:drawableStart="@drawable/icon2"
+            android:layout_marginTop="4dp"
+            android:layout_margin="5dp"
+            android:textColor="@android:color/black"/>
+        <EditText
+            android:id="@+id/editTextPhonenumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:ems="10"
+            android:background="@android:color/transparent"
+            android:drawablePadding="12dp"
+            android:padding="8dp"
+            android:hint="Enter your phonenumber"
+            android:textColorHint="@android:color/black"
+            android:maxLines="1"
+            android:drawableStart="@drawable/icon2"
+            android:layout_marginTop="4dp"
+            android:layout_margin="5dp"
+            android:textColor="@android:color/black"/>
+        <EditText
+            android:id="@+id/editTextAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:ems="10"
+            android:background="@android:color/transparent"
+            android:drawablePadding="12dp"
+            android:padding="8dp"
+            android:hint="Enter your Home Address"
+            android:textColorHint="@android:color/black"
+            android:maxLines="1"
+            android:drawableStart="@drawable/icon2"
+            android:layout_marginTop="4dp"
+            android:layout_margin="5dp"
+            android:textColor="@android:color/black"/>
+        <EditText
+            android:id="@+id/editTextDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:ems="10"
+            android:background="@android:color/transparent"
+            android:drawablePadding="12dp"
+            android:padding="8dp"
+            android:hint="Enter your Visa Expiry"
+            android:textColorHint="@android:color/black"
+            android:maxLines="1"
+            android:drawableStart="@drawable/icon2"
+            android:layout_marginTop="4dp"
+            android:layout_margin="5dp"
+            android:textColor="@android:color/black"/>
+        <Button
+            android:id="@+id/buttonSave"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="#ffa351"
+            android:text="Save Information"
+            android:textColor="@android:color/black" />
         <Button
             android:id="@+id/buttonLogout"
             android:layout_width="fill_parent"
@@ -29,7 +150,14 @@
             android:layout_marginTop="20dp"
             android:background="#ffa351"
             android:text="Logout"
-            android:textColor="@android:color/black"/>
-
+            android:textColor="@android:color/black" />
     </LinearLayout>
-</android.support.constraint.ConstraintLayout>
+
+
+
+
+    </RelativeLayout>
+
+
+
+
