@@ -15,7 +15,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "668110384855-g2kr432m9mljo7mg4arucsga9cq4ae69.apps.googleusercontent.com",
+          "client_id": "668110384855-ukc5mfg2lovs1ir6tu4t6i9jq3mb6vn1.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "ca.connect.dal.dalconnect",
@@ -23,12 +23,8 @@
           }
         },
         {
-          "client_id": "668110384855-22fojcl21bor3bjsn366p56qeik4mq4s.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "ca.connect.dal.dalconnect",
-            "certificate_hash": "a928a1bc99ac52a0101a67e730711d8792751957"
-          }
+          "client_id": "668110384855-31cdcas18l6qrev4fiqmcu8coa2fjcvk.apps.googleusercontent.com",
+          "client_type": 3
         },
         {
           "client_id": "668110384855-pv549u2s18s6hnm2sfiovvldjg6ulg7o.apps.googleusercontent.com",
@@ -48,7 +44,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "668110384855-pv549u2s18s6hnm2sfiovvldjg6ulg7o.apps.googleusercontent.com",
+              "client_id": "668110384855-31cdcas18l6qrev4fiqmcu8coa2fjcvk.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
