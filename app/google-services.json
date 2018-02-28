@@ -15,19 +15,11 @@
       },
       "oauth_client": [
         {
-<<<<<<< HEAD
           "client_id": "668110384855-ukc5mfg2lovs1ir6tu4t6i9jq3mb6vn1.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "ca.connect.dal.dalconnect",
             "certificate_hash": "8c3fc80ffdbc02de53c150a26433cfdaa3c558dc"
-=======
-          "client_id": "668110384855-79sq3bva3vu1jntlknv0qg5tmejhuu48.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "ca.connect.dal.dalconnect",
-            "certificate_hash": "7356fb286e36f1e59f344d17d1ac8743697d28ec"
->>>>>>> seyieroz
           }
         },
         {
