@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ca.connect.dal.dalconnect.MainActivity">
+
+
+
+
+    <LinearLayout
+        android:layout_margin="25dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:orientation="vertical">
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:orientation="vertical">
+                <ImageView
+                    android:layout_width="240dp"
+                    android:layout_height="120dp"
+                    android:layout_gravity="center_horizontal"
+                    android:padding="16dp"
+                    android:layout_marginBottom="0dp"
+                    android:layout_marginTop="28dp"
+                    android:src="@drawable/logo" />
+
+
+
+
+
+                <Button
+                    android:id="@+id/btn_login"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="#ffa351"
+                    android:text="Login with Username"
+                    android:textColor="@android:color/white"/>
+
+
+
+
+
+
+            </LinearLayout>
+        </ScrollView>
+
+
+
+
+
+
+
+
+
+        <!-- Login Button -->
+
+
+
+        <!-- Link to Login Screen -->
+
+
+    </LinearLayout>
+
+    <!-- <ProgressBar
+         android:id="@+id/progressBar"
+         android:layout_width="30dp"
+         android:layout_height="30dp"
+         android:layout_gravity="center|bottom"
+         android:layout_marginBottom="20dp"
+         android:visibility="gone" />-->
+
+
+
+</android.support.constraint.ConstraintLayout>
