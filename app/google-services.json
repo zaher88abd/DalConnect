@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "668110384855",
+    "firebase_url": "https://dalconnect-c74c7.firebaseio.com",
+    "project_id": "dalconnect-c74c7",
+    "storage_bucket": "dalconnect-c74c7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:668110384855:android:9a00629575c21407",
+        "android_client_info": {
+          "package_name": "ca.connect.dal.dalconnect"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "668110384855-g2kr432m9mljo7mg4arucsga9cq4ae69.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ca.connect.dal.dalconnect",
+            "certificate_hash": "8c3fc80ffdbc02de53c150a26433cfdaa3c558dc"
+          }
+        },
+        {
+          "client_id": "668110384855-22fojcl21bor3bjsn366p56qeik4mq4s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ca.connect.dal.dalconnect",
+            "certificate_hash": "a928a1bc99ac52a0101a67e730711d8792751957"
+          }
+        },
+        {
+          "client_id": "668110384855-pv549u2s18s6hnm2sfiovvldjg6ulg7o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAt2th3oxTOeXFM-_MePq8HhutpkikwS8M"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "668110384855-pv549u2s18s6hnm2sfiovvldjg6ulg7o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
