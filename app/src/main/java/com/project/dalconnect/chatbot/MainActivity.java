@@ -1,4 +1,4 @@
-package ca.connect.dal.dalconnect;
+package com.project.dalconnect.chatbot;
 
         import android.support.v7.app.AppCompatActivity;
         import android.os.Bundle;

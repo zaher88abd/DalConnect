@@ -1,4 +1,4 @@
-package ca.connect.dal.dalconnect;
+package com.project.dalconnect.chatbot;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
