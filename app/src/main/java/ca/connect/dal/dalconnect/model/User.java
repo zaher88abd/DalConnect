@@ -5,4 +5,6 @@ package ca.connect.dal.dalconnect.model;
  */
 
 public class User {
+
+    private String user_name;
 }
