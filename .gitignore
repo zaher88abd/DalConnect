@@ -151,7 +151,7 @@ $RECYCLE.BIN/
 # End of https://www.gitignore.io/api/windows,androidstudio
 
 #json
-google-services.json
+app/google-services.json
 
 # Created by https://www.gitignore.io/api/firebase
 
