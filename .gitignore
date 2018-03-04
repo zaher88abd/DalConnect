@@ -149,3 +149,15 @@ $RECYCLE.BIN/
 
 
 # End of https://www.gitignore.io/api/windows,androidstudio
+
+#json
+google-services.json
+
+# Created by https://www.gitignore.io/api/firebase
+
+### Firebase ###
+.idea
+**/node_modules/*
+**/.firebaserc
+
+# End of https://www.gitignore.io/api/firebase
