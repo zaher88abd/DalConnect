@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="10dp"
+    android:paddingStart="10dp"
+    android:paddingEnd="10dp"
+    android:paddingTop="10dp"
+    tools:context="com.project.dalconnect.chatbot.ChatActivity">
+
+
+
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="false"
+        android:layout_above="@+id/textMessage"
+        android:id="@+id/ConversationList"
+        android:layout_marginBottom="10dp"
+        android:divider="@null"></ListView>
+
+    <EditText
+        android:id="@+id/textMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toStartOf="@+id/imageButton"
+        android:inputType="text"
+        android:textColor="@android:color/background_dark"
+        android:textColorLink="@android:color/transparent" />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/textMessage"
+        android:background="@android:drawable/ic_menu_send"
+        android:contentDescription="@string/sendButton" />
+
+</RelativeLayout>
