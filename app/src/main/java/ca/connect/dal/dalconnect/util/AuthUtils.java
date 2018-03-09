@@ -8,9 +8,20 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 
 import android.support.annotation.NonNull;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import ca.connect.dal.dalconnect.model.User;
 
 
 /**
@@ -21,6 +32,8 @@ public class AuthUtils {
 
     private static AuthUtils instance;
     private static FirebaseAuth mAuth = null;
+    private static DatabaseReference mDatabase;
+
 
     private AuthUtils() {}
 
@@ -30,6 +43,7 @@ public class AuthUtils {
         {
             instance = new AuthUtils();
             mAuth = FirebaseAuth.getInstance();
+            mDatabase = FirebaseDatabase.getInstance().getReference();
         }
         return instance;
     }
@@ -75,7 +89,6 @@ public class AuthUtils {
     }
 
     public void createUser(String email, String password, Activity activity) {
-
 
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {

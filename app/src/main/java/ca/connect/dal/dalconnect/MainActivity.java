@@ -22,11 +22,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 
 
-                Intent intent = new Intent(MainActivity.this, ChatActivity.class);
-                intent.putExtra("user_name","UserA");
-                intent.putExtra("email","33@qq.com");
+                Intent intent = new Intent(MainActivity.this, UserListActivity.class);
+                intent.putExtra("email","user0@dalconnect.com");
                 intent.putExtra("password","123456");
-                intent.putExtra("room_id","1");
 
                 MainActivity.this.finish();
                 startActivity(intent);
@@ -40,12 +38,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-
-                Intent intent = new Intent(MainActivity.this, ChatActivity.class);
-                intent.putExtra("user_name","UserB");
+                Intent intent = new Intent(MainActivity.this, UserListActivity.class);
+                /*intent.putExtra("user_name","UserB");
                 intent.putExtra("email","22@qq.com");
                 intent.putExtra("password","123456");
-                intent.putExtra("room_id","1");
+                intent.putExtra("room_id","1");*/
+                intent.putExtra("email","user1@dalconnect.com");
+                intent.putExtra("password","123456");
 
                 MainActivity.this.finish();
                 startActivity(intent);
