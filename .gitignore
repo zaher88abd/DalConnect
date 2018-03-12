@@ -147,5 +147,5 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-
+app/google-services.json
 # End of https://www.gitignore.io/api/windows,androidstudio
