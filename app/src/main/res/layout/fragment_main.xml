@@ -2,16 +2,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ca.connect.dal.dalconnect.MainFragment">
+    tools:context="ca.connect.dal.dalconnect.MatchListFragment">
 
 
-        <ListView
+    <android.support.v7.widget.RecyclerView
 
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/textUserListview"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="8dp" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/recyclerView"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp" />
 
 
 

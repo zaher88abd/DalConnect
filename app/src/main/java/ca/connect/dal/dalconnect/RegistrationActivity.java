@@ -1,11 +1,8 @@
 package ca.connect.dal.dalconnect;
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -25,23 +22,22 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class loginActivity extends AppCompatActivity implements View.OnClickListener {
-
-
-    private Button buttonSignIn;
+public class RegistrationActivity extends AppCompatActivity implements View.OnClickListener{
+    private Button buttonRegister;
     private EditText editTextEmail;
     private EditText editTextPassword;
-    private TextView textViewSignup;
+    private TextView textViewSignin;
+
     private ProgressDialog progressDialog;
     private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_main);
+
 
         firebaseAuth = FirebaseAuth.getInstance();
-
         if(firebaseAuth.getCurrentUser() != null) {
             finish();
             startActivity(new Intent(getApplicationContext(),profileActivity.class)); //profile activity here
@@ -54,20 +50,17 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void setUpViews(){
-        buttonSignIn = (Button) findViewById(R.id.buttonSignIn);
+        progressDialog = new ProgressDialog(this);
+
+        buttonRegister = (Button) findViewById(R.id.buttonRegister);
         editTextEmail = (EditText) findViewById(R.id.editTextEmail);
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
-        textViewSignup = (TextView) findViewById(R.id.textViewSignup);
-
-        progressDialog = new ProgressDialog(loginActivity.this);
-
+        textViewSignin = (TextView) findViewById(R.id.textViewSignin);
     }
 
     private void setUpListeners(){
-        buttonSignIn.setOnClickListener(this);
-        textViewSignup.setOnClickListener(this);
-
-
+        buttonRegister.setOnClickListener(this);
+        textViewSignin.setOnClickListener(this);
     }
 
     private void setUpValidationCheckers(){
@@ -91,9 +84,30 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
             }
         });
 
+        editTextPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String passwordFromEdittext = editTextPassword.getText().toString().trim();
+
+                checkCorrectPassword(passwordFromEdittext);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
     }
 
-    private void userLogin(){
+    private void registerUser(){
+
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
 
@@ -106,48 +120,43 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
             //stop executing fuctions
             return;
         }
+        //validation okay
+
         progressDialog.setMessage("Registering User......");
         progressDialog.show();
 
-        firebaseAuth.signInWithEmailAndPassword(email,password)
+
+        firebaseAuth.createUserWithEmailAndPassword(email,password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        progressDialog.dismiss();
-                        if (task.isSuccessful()) {
-
-                            //uder registred succcefulluy\
+                        if(task.isSuccessful()){
                             finish();
-                            startActivity(new Intent(getApplicationContext(), NavigationActivity.class));
+                            startActivity(new Intent(getApplicationContext(),profileActivity.class)); //profile activity here
 
 
+                        } else {
+                            Toast.makeText(RegistrationActivity.this, "failed to register",Toast.LENGTH_SHORT).show();
+                            progressDialog.cancel();
                         }
-
-                        else{
-                            showErrorDialog();
-                        }
-
                     }
-
                 });
 
     }
 
     @Override
     public void onClick(View view){
-            if(view == buttonSignIn){
-                userLogin();
-            }
+        if(view == buttonRegister){
+            registerUser();
+        }
 
-            if (view == textViewSignup) {
-                finish();
-                startActivity(new Intent(this,RegistrationActivity.class));
+        if (view == textViewSignin) {
+            startActivity(new Intent(this,loginActivity.class));
 
-                ///login activity
-            }
+        }
     }
 
-    public void checkCorrectEmail (String emailEntered) {
+    public void checkCorrectEmail(String emailEntered) {
 
         boolean isValidated;
 
@@ -161,6 +170,20 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    public void checkCorrectPassword(String passwordEntered) {
+
+        boolean isValidated;
+
+        if (!validatePassword(passwordEntered)) {
+            isValidated = false;
+            editTextPassword.setError("Please enter a valid password");
+            editTextPassword.requestFocus();
+        } else {
+            isValidated = true;
+            editTextPassword.setError(null);
+        }
+    }
+
     private boolean validateEmail(String email) {
         String emailPattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
         Pattern pattern = Pattern.compile(emailPattern);
@@ -168,18 +191,10 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
         return matcher.matches();
     }
 
-    private void showErrorDialog(){
-        AlertDialog.Builder builder;
-        builder = new AlertDialog.Builder(loginActivity.this, android.R.style.Theme_Material_Dialog_Alert);
-        builder.setTitle("User Not Found")
-                .setMessage("Email/Password is incorrect")
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
-
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();
+    private boolean validatePassword(String password) {
+        String passwordPattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,15}$";
+        Pattern pattern = Pattern.compile(passwordPattern);
+        Matcher matcher = pattern.matcher(password);
+        return matcher.matches();
     }
 }

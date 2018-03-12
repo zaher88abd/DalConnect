@@ -15,14 +15,6 @@
       },
       "oauth_client": [
         {
-          "client_id": "668110384855-m2b6c6n6nph8983v0b5vkube8plmi75f.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "ca.connect.dal.dalconnect",
-            "certificate_hash": "7356fb286e36f1e59f344d17d1ac8743697d28ec"
-          }
-        },
-        {
           "client_id": "668110384855-ukc5mfg2lovs1ir6tu4t6i9jq3mb6vn1.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

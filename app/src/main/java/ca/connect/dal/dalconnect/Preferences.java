@@ -36,6 +36,7 @@ public class Preferences {
         editor.putString("Date", user.getDate());
         editor.putString("PhoneNumber", user.getPhonenumber());
         editor.putString("Program", user.getProgram());
+        editor.putString("StartTerm", user.getStartTerm());
 
         // commit changes
         editor.commit();
@@ -52,6 +53,7 @@ public class Preferences {
         user.setDate(pref.getString("Date", null));
         user.setPhonenumber(pref.getString("PhoneNumber", null));
         user.setProgram(pref.getString("Program", null));
+        user.setStartTerm(pref.getString("StartTerm", null));
 
         return user;
     }

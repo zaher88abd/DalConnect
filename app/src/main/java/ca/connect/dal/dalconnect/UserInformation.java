@@ -1,4 +1,4 @@
-package ca.connect.dal.dalconnect;;
+package ca.connect.dal.dalconnect;;import android.graphics.Bitmap;
 
 /**
  * Created by Lab Resident on 2018-02-11.
@@ -10,17 +10,20 @@ public class UserInformation {
     private String Dalid;
     private String Country;
     private String Program;
+    private String StartTerm;
     private String Phonenumber;
     private String Address;
     private String Date;
     private String email;
+    private Bitmap userImage;
 
 
-    public UserInformation(String username, String dalid, String country, String program, String phonenumber, String address, String date) {
+    public UserInformation(String username, String dalid, String country, String program, String startTerm, String phonenumber, String address, String date) {
         Username = username;
         Dalid = dalid;
         Country = country;
         Program = program;
+        StartTerm = startTerm;
         Phonenumber = phonenumber;
         Address = address;
         Date = date;
@@ -92,6 +95,22 @@ public class UserInformation {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getStartTerm() {
+        return StartTerm;
+    }
+
+    public void setStartTerm(String startTerm) {
+        StartTerm = startTerm;
+    }
+
+    public Bitmap getUserImage() {
+        return userImage;
+    }
+
+    public void setUserImage(Bitmap userImage) {
+        this.userImage = userImage;
     }
 }
 

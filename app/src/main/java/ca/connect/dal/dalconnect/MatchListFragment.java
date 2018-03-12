@@ -2,20 +2,22 @@ package ca.connect.dal.dalconnect;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,9 +26,11 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
-public class MatchActivity extends AppCompatActivity {
+
+public class MatchListFragment extends Fragment {
+
     private DatabaseReference databaseReference;
-    private RecyclerView recyclerView;
+    private ListView textUserListview;
     private ArrayList<String> usernameList = new ArrayList<>();
     private ArrayList<UserInformation> userList;
 
@@ -36,74 +40,99 @@ public class MatchActivity extends AppCompatActivity {
 
     private UserListAdapter adapter;
 
+    private RecyclerView recyclerView;
+
+
+    public MatchListFragment() {
+        // Required empty public constructor
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_match);
+
+    }
+// so its working but after the add information page ,it goes to the navigation drawer ,but when i  click on match it doesnt goes to the pagere u have been working on
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view =  inflater.inflate(R.layout.fragment_main, container, false);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        pref = new Preferences(MatchActivity.this);
+        pref = new Preferences(getActivity());
 
         if(firebaseAuth.getCurrentUser() == null) {
-            finish();
-            startActivity(new Intent(this,loginActivity.class)); //profile activity here
+            getActivity().finish();
+            startActivity(new Intent(getActivity(), loginActivity.class)); //profile activity here
         }
 
-        setUpViews();
+        setUpViews(view);
         setUpListeners();
 
-
-/*
-        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, usernameList);
-        textUserListview.setAdapter(arrayAdapter);*/
-
+        return view;
     }
 
-    public void setUpViews(){
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+    private void setUpViews(View view){
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         userList = new ArrayList<UserInformation>();
-        adapter = new UserListAdapter(MatchActivity.this, userList);
+        adapter = new UserListAdapter(getActivity(), userList);
 
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
     }
 
-    public void setUpListeners(){
+    private void setUpListeners(){
         databaseReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-                String usernameFirebase = (String) dataSnapshot.child("Username").getValue();
-                String countryFirebase = (String) dataSnapshot.child("Country").getValue();
-                String programFirebase = (String) dataSnapshot.child("Program").getValue();
+                String usernameFromFirebase = (String) dataSnapshot.child("username").getValue();
+                String countryFromFirebase = (String) dataSnapshot.child("country").getValue();
+                String startTermFromFirebase = (String) dataSnapshot.child("startTerm").getValue();
+                String programFromFirebase = (String) dataSnapshot.child("Program").getValue();
 
+                System.out.println("usernameFromFirebase: " + usernameFromFirebase);
+                System.out.println("countryFromFirebase: " + countryFromFirebase);
+                System.out.println("startTermFromFirebase: " + startTermFromFirebase);
+                System.out.println("programFromFirebase: " + programFromFirebase);
 
                 //Get User's country
                 UserInformation userInfo = pref.getUserDetails();
                 String usersCountry = userInfo.getCountry();
+                String usersStartTerm = userInfo.getStartTerm();
 
                 System.out.println("UsersCountry: " + usersCountry);
+                System.out.println("usersStartTerm: " + usersStartTerm);
 
                 //so its to write a code that'll filter by country
 
-                if(!countryFirebase.equalsIgnoreCase("") && !countryFirebase.equalsIgnoreCase("null") && countryFirebase != null ){
-                    if(countryFirebase.equalsIgnoreCase(usersCountry)){
-                       /* usernameList.add(usernameFirebase);
-                        arrayAdapter.notifyDataSetChanged();*/
+                if(countryFromFirebase != null && !countryFromFirebase.equalsIgnoreCase("")
+                        && !countryFromFirebase.equalsIgnoreCase("null")){
 
-                       UserInformation userInformation = new UserInformation();
-                       userInformation.setUsername(usernameFirebase != null ? usernameFirebase : "");
-                       userInformation.setProgram(programFirebase != null ? programFirebase : "");
+                    if(countryFromFirebase.equalsIgnoreCase(usersCountry)){
 
-                       userList.add(userInformation);
+                        if(startTermFromFirebase != null && !startTermFromFirebase.equalsIgnoreCase("") &&
+                                !startTermFromFirebase.equalsIgnoreCase("null")){
 
-                       adapter.notifyDataSetChanged();
+                            if(startTermFromFirebase.equalsIgnoreCase(usersStartTerm)){
+                                UserInformation userInformation = new UserInformation();
+                                userInformation.setUsername(usernameFromFirebase != null ? usernameFromFirebase : "");
+                                userInformation.setProgram(programFromFirebase != null ? programFromFirebase : "");
+
+                                userList.add(userInformation);
+
+                                adapter.notifyDataSetChanged();
+
+                            }
+                        }
 
                     }
                 }
@@ -141,9 +170,9 @@ public class MatchActivity extends AppCompatActivity {
     public class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
 
         private GestureDetector gestureDetector;
-        private ClickListener clickListener;
+        private MatchActivity.ClickListener clickListener;
 
-        public RecyclerTouchListener(Context context, final RecyclerView recyclerView, final ClickListener clickListener) {
+        public RecyclerTouchListener(Context context, final RecyclerView recyclerView, final MatchActivity.ClickListener clickListener) {
             this.clickListener = clickListener;
             gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
                 @Override
