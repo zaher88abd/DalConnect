@@ -5,8 +5,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -34,6 +37,24 @@ public class UserListActivity extends AppCompatActivity
                 case 0:
                     userListAdapter = new UserListAdapter(user_list, UserListActivity.this);
                     listView.setAdapter(userListAdapter);
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                            User secondUser = user_list.get(i);
+                            FirebaseUser currentUser = AuthUtils.getInstance().getCurrentUser();
+
+                            Intent intent = new Intent(UserListActivity.this, ChatActivity.class);
+                            String id = AuthUtils.getInstance().generateRoomId(secondUser.getUser_name(), currentUser.getDisplayName());
+
+                            intent.putExtra("room_id",id);
+                            intent.putExtra("user_name",currentUser.getDisplayName());
+
+                            UserListActivity.this.finish();
+                            startActivity(intent);
+
+                        }
+                    });
                     break;
 
                 default:
@@ -42,6 +63,7 @@ public class UserListActivity extends AppCompatActivity
         }
 
     };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

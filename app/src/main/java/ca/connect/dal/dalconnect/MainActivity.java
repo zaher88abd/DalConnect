@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("email","22@qq.com");
                 intent.putExtra("password","123456");
                 intent.putExtra("room_id","1");*/
-                intent.putExtra("email","user1@dalconnect.com");
+                intent.putExtra("email","user3@dalconnect.com");
                 intent.putExtra("password","123456");
 
                 MainActivity.this.finish();

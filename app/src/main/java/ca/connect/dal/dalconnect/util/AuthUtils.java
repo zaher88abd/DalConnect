@@ -8,6 +8,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,6 +38,22 @@ public class AuthUtils {
 
     private AuthUtils() {}
 
+    public String generateRoomId(String a, String b)
+    {
+        String id = null;
+        a = a.toLowerCase();
+        b = b.toLowerCase();
+        if(a.compareTo(b) > 0)
+        {
+            id = b + "-" + a;
+        }
+        else
+        {
+            id = a + "-" + b;
+        }
+        return id;
+    }
+
     public static AuthUtils getInstance()
     {
         if(instance==null)
@@ -46,6 +63,11 @@ public class AuthUtils {
             mDatabase = FirebaseDatabase.getInstance().getReference();
         }
         return instance;
+    }
+
+    public FirebaseUser getCurrentUser()
+    {
+        return mAuth.getCurrentUser();
     }
 
 

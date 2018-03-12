@@ -10,6 +10,8 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -49,12 +51,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
         Intent intent = getIntent();
 
-        userName = intent.getStringExtra("user_name");
-        roomId = intent.getStringExtra("room_id");
-        String email = intent.getStringExtra("email");
-        String password = intent.getStringExtra("password");
 
-        AuthUtils.getInstance().signIn(email, password, this);
+        userName = AuthUtils.getInstance().getCurrentUser().getDisplayName();
+        roomId = intent.getStringExtra("room_id");
 
         TextView tvHeader=new TextView(ChatActivity.this);
         tvHeader.setText(userName);
@@ -62,23 +61,17 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-        FirebaseDatabase.getInstance().getReference().child("message/" + roomId).addChildEventListener(new ChildEventListener() {
+        FirebaseDatabase.getInstance().getReference().child("Dal_Chat/message/" + roomId).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 if (dataSnapshot.getValue() != null) {
                     HashMap mapMessage = (HashMap) dataSnapshot.getValue();
-                    /*Message newMessage = new Message();
-                    newMessage.idSender = (String) mapMessage.get("idSender");
-                    newMessage.idReceiver = (String) mapMessage.get("idReceiver");
-                    newMessage.text = (String) mapMessage.get("text");
-                    newMessage.timestamp = (long) mapMessage.get("timestamp");
-                    //conversation.getListMessageData().add(newMessage);
-                    adapter.notifyDataSetChanged();*/
+
                     String sender = (String) mapMessage.get("idSender");
-                    if(!userName.equals(sender))
-                    {
-                        itemsAdapter.add(sender + ": " + mapMessage.get("text"));
-                    }
+                    //if(!userName.equals(sender))
+                    //{
+                    itemsAdapter.add(sender + ": " + mapMessage.get("text"));
+                    //}
 
 
                 }
@@ -119,9 +112,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 newMessage.idSender = userName;
                 newMessage.idReceiver = "1";
                 newMessage.timestamp = System.currentTimeMillis();
-                FirebaseDatabase.getInstance().getReference().child("message/" + roomId).push().setValue(newMessage);
+                FirebaseDatabase.getInstance().getReference().child("Dal_Chat/message/" + roomId).push().setValue(newMessage);
 
-                itemsAdapter.add(userName + ": " + content);
+                //itemsAdapter.add(userName + ": " + content);
             }
         }
 
