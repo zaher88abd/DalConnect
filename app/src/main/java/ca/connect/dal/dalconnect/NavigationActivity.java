@@ -13,6 +13,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import ca.connect.dal.dalconnect.chat.UserListFlagment;
+
 public class NavigationActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
     NavigationView navigationView = null;
@@ -24,7 +26,7 @@ public class NavigationActivity extends AppCompatActivity
         setContentView(R.layout.activity_main2);
         //  Set the fragment
 
-        MatchListFragment fragment = new MatchListFragment();
+        UserListFlagment fragment = new UserListFlagment();
         android.support.v4.app.FragmentTransaction fragmentTransaction =
                 getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, fragment);
@@ -92,7 +94,7 @@ public class NavigationActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
 
-            MatchListFragment fragment = new MatchListFragment();
+            UserListFlagment fragment = new UserListFlagment();
             android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, fragment);

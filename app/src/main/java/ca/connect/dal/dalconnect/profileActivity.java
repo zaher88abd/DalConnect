@@ -59,6 +59,12 @@ public class profileActivity extends AppCompatActivity implements View.OnClickLi
 
     private final int PICK_IMAGE_REQUEST = 71;
 
+    /**
+     * add by gaoyounan
+     * To Keep Portrait
+     */
+    private String portrait_id = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -157,6 +163,11 @@ public class profileActivity extends AppCompatActivity implements View.OnClickLi
         String Date = editTextDate.getText().toString().trim();
 
         UserInformation userInformation = new UserInformation(Username,Dalid,Country,Program,startTerm,Phonenumber,Address,Date);
+        /**
+         *  add by gaoyounan
+         *  attach portrait
+         */
+        userInformation.setUserImage(portrait_id);
 
         FirebaseUser user =firebaseAuth.getCurrentUser();
         databaseReference.child("/users").child(user.getUid()).setValue(userInformation);
@@ -240,7 +251,11 @@ public class profileActivity extends AppCompatActivity implements View.OnClickLi
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
 
-            StorageReference ref = storageReference.child("images/"+ UUID.randomUUID().toString());
+            //add by gaoyounan
+            portrait_id = firebaseAuth.getCurrentUser().getUid();
+            StorageReference ref = storageReference.child("Portraits/"+ portrait_id);
+            //////////////////
+
             ref.putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override

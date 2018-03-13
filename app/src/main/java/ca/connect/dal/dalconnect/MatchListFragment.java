@@ -23,6 +23,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -90,79 +92,78 @@ public class MatchListFragment extends Fragment {
     }
 
     private void setUpListeners(){
-        databaseReference.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-                /*if(!dataSnapshot.getKey().equals("Dal_Chat") && !dataSnapshot.getKey().equals("users"))
+        Query myTopPostsQuery = databaseReference.child("users/");
+
+        myTopPostsQuery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                UserInformation userInformation = null;
+                for (DataSnapshot userSnapshot: dataSnapshot.getChildren())
                 {
-                    databaseReference.child("users/"+dataSnapshot.getKey()).setValue(dataSnapshot.getValue(UserInformation.class));
-                }*/
+
+                    userInformation = userSnapshot.getValue(UserInformation.class);
+                    userList.add(userInformation);
 
 
 
-                String usernameFromFirebase = (String) dataSnapshot.child("username").getValue();
-                String countryFromFirebase = (String) dataSnapshot.child("country").getValue();
-                String startTermFromFirebase = (String) dataSnapshot.child("startTerm").getValue();
-                String programFromFirebase = (String) dataSnapshot.child("Program").getValue();
 
-                System.out.println("usernameFromFirebase: " + usernameFromFirebase);
-                System.out.println("countryFromFirebase: " + countryFromFirebase);
-                System.out.println("startTermFromFirebase: " + startTermFromFirebase);
-                System.out.println("programFromFirebase: " + programFromFirebase);
+                    /*String usernameFromFirebase = (String) userSnapshot.child("username").getValue();
+                    String countryFromFirebase = (String) userSnapshot.child("country").getValue();
+                    String startTermFromFirebase = (String) userSnapshot.child("startTerm").getValue();
+                    String programFromFirebase = (String) userSnapshot.child("Program").getValue();
 
-                //Get User's country
-                UserInformation userInfo = pref.getUserDetails();
-                String usersCountry = userInfo.getCountry();
-                String usersStartTerm = userInfo.getStartTerm();
+                    System.out.println("usernameFromFirebase: " + usernameFromFirebase);
+                    System.out.println("countryFromFirebase: " + countryFromFirebase);
+                    System.out.println("startTermFromFirebase: " + startTermFromFirebase);
+                    System.out.println("programFromFirebase: " + programFromFirebase);
 
-                System.out.println("UsersCountry: " + usersCountry);
-                System.out.println("usersStartTerm: " + usersStartTerm);
+                    //Get User's country
+                    UserInformation userInfo = pref.getUserDetails();
+                    String usersCountry = userInfo.getCountry();
+                    String usersStartTerm = userInfo.getStartTerm();
 
-                //so its to write a code that'll filter by country
+                    System.out.println("UsersCountry: " + usersCountry);
+                    System.out.println("usersStartTerm: " + usersStartTerm);
 
-                if(countryFromFirebase != null && !countryFromFirebase.equalsIgnoreCase("")
-                        && !countryFromFirebase.equalsIgnoreCase("null")){
+                    //so its to write a code that'll filter by country
 
-                    if(countryFromFirebase.equalsIgnoreCase(usersCountry)){
+                    if(countryFromFirebase != null && !countryFromFirebase.equalsIgnoreCase("")
+                            && !countryFromFirebase.equalsIgnoreCase("null")){
 
-                        if(startTermFromFirebase != null && !startTermFromFirebase.equalsIgnoreCase("") &&
-                                !startTermFromFirebase.equalsIgnoreCase("null")){
+                        if(countryFromFirebase.equalsIgnoreCase(usersCountry)){
 
-                            if(startTermFromFirebase.equalsIgnoreCase(usersStartTerm)){
-                                UserInformation userInformation = new UserInformation();
-                                userInformation.setUsername(usernameFromFirebase != null ? usernameFromFirebase : "");
-                                userInformation.setProgram(programFromFirebase != null ? programFromFirebase : "");
+                            if(startTermFromFirebase != null && !startTermFromFirebase.equalsIgnoreCase("") &&
+                                    !startTermFromFirebase.equalsIgnoreCase("null")){
 
-                                userList.add(userInformation);
+                                if(startTermFromFirebase.equalsIgnoreCase(usersStartTerm)){
+                                    UserInformation userInformation = new UserInformation();
+                                    userInformation.setUsername(usernameFromFirebase != null ? usernameFromFirebase : "");
+                                    userInformation.setProgram(programFromFirebase != null ? programFromFirebase : "");
 
-                                adapter.notifyDataSetChanged();
+                                    userList.add(userInformation);
 
+                                    adapter.notifyDataSetChanged();
+
+                                }
                             }
+
                         }
-
-                    }
+                    }*/
                 }
-            }
 
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                adapter.notifyDataSetChanged();
 
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                // Getting Post failed, log a message
+                //Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
+                // ...
+                System.out.println("Failure");
             }
         });
 

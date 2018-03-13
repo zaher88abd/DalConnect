@@ -15,7 +15,7 @@ public class UserInformation {
     private String Address;
     private String Date;
     private String email;
-    private Bitmap userImage;
+    private String userImage;
 
 
     public UserInformation(String username, String dalid, String country, String program, String startTerm, String phonenumber, String address, String date) {
@@ -105,11 +105,11 @@ public class UserInformation {
         StartTerm = startTerm;
     }
 
-    public Bitmap getUserImage() {
+    public String getUserImage() {
         return userImage;
     }
 
-    public void setUserImage(Bitmap userImage) {
+    public void setUserImage(String userImage) {
         this.userImage = userImage;
     }
 }
