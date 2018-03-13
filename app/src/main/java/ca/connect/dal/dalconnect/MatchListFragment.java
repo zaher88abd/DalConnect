@@ -94,6 +94,13 @@ public class MatchListFragment extends Fragment {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
+                /*if(!dataSnapshot.getKey().equals("Dal_Chat") && !dataSnapshot.getKey().equals("users"))
+                {
+                    databaseReference.child("users/"+dataSnapshot.getKey()).setValue(dataSnapshot.getValue(UserInformation.class));
+                }*/
+
+
+
                 String usernameFromFirebase = (String) dataSnapshot.child("username").getValue();
                 String countryFromFirebase = (String) dataSnapshot.child("country").getValue();
                 String startTermFromFirebase = (String) dataSnapshot.child("startTerm").getValue();

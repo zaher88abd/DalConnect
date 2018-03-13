@@ -159,7 +159,7 @@ public class profileActivity extends AppCompatActivity implements View.OnClickLi
         UserInformation userInformation = new UserInformation(Username,Dalid,Country,Program,startTerm,Phonenumber,Address,Date);
 
         FirebaseUser user =firebaseAuth.getCurrentUser();
-        databaseReference.child(user.getUid()).setValue(userInformation);
+        databaseReference.child("/users").child(user.getUid()).setValue(userInformation);
 
         // For shared preferences
         UserInformation userInfo = new UserInformation();
