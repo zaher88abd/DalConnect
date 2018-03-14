@@ -59,6 +59,24 @@ public class AuthUtils {
         return mAuth.getCurrentUser();
     }
 
+    public String getCurrentUserDisplayName()
+    {
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        if(user == null)
+        {
+            return null;
+        }
+
+        if(user.getDisplayName()!=null)
+        {
+            return user.getDisplayName();
+        }
+
+        String email = user.getEmail();
+        return email.split("@")[0];
+    }
+
 
     /**
      * Action Login

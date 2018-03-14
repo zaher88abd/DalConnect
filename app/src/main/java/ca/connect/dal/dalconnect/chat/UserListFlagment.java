@@ -1,10 +1,13 @@
 package ca.connect.dal.dalconnect.chat;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -25,6 +29,7 @@ import java.util.List;
 import ca.connect.dal.dalconnect.NavigationActivity;
 import ca.connect.dal.dalconnect.R;
 import ca.connect.dal.dalconnect.UserInformation;
+import ca.connect.dal.dalconnect.util.AuthUtils;
 
 public class UserListFlagment extends Fragment
 {
@@ -32,6 +37,9 @@ public class UserListFlagment extends Fragment
     private UserListAdapter userListAdapter;
     private List<UserInformation> user_list = new ArrayList<UserInformation>();
 
+    private FragmentManager fragmentManager;
+
+    @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler(){
 
         @Override
@@ -45,17 +53,13 @@ public class UserListFlagment extends Fragment
 
                         @Override
                         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                            /*UserInformation secondUser = user_list.get(i);
+                            UserInformation secondUser = user_list.get(i);
                             FirebaseUser currentUser = AuthUtils.getInstance().getCurrentUser();
 
-                            Intent intent = new Intent(UserListActivity.this, ChatActivity.class);
-                            String id = AuthUtils.getInstance().generateRoomId(secondUser.getUsername(), currentUser.getDisplayName());
-
-                            intent.putExtra("room_id",id);
-                            intent.putExtra("user_name",currentUser.getDisplayName());
-
-                            UserListActivity.this.finish();
-                            startActivity(intent);*/
+                            String id = AuthUtils.getInstance().generateRoomId(currentUser.getUid(), secondUser.getUID());
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.replace(R.id.fragment_container, ChatFragment.newInstance(secondUser.getUsername(), id));
+                            fragmentTransaction.commit();
 
                         }
                     });
@@ -68,7 +72,16 @@ public class UserListFlagment extends Fragment
 
     };
 
-    public UserListFlagment(){}
+    public UserListFlagment(){
+
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+        fragmentManager = getFragmentManager();
+    }
 
 
     @Override
@@ -77,6 +90,7 @@ public class UserListFlagment extends Fragment
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_user_list, container, false);
         listView = (ListView) view.findViewById(R.id.lv_id);
+
 
         getActivity().setTitle("Friendlist");
 
@@ -100,6 +114,7 @@ public class UserListFlagment extends Fragment
                 {
                     System.out.println("Success");
                     user = postSnapshot.getValue(UserInformation.class);
+                    user.setUID(postSnapshot.getKey());
                     user_list.add(user);
                 }
 
