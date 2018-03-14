@@ -1,4 +1,4 @@
-package com.project.dalconnect.chatbot;
+package ca.connect.dal.dalconnect;
 
 import org.junit.Test;
 
