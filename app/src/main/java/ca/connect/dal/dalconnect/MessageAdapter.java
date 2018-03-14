@@ -1,4 +1,4 @@
-package com.project.dalconnect.chatbot;
+package ca.connect.dal.dalconnect;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +13,8 @@ import android.view.LayoutInflater;
 
 /**
  * Created by hugokwe on 3/4/2018.
- * This binds the data to the listview. It calls the ChatData  object, then boolean function checks if the action called is a request or response using the boolean.
+ * This binds the data to the listview. It calls the ChatData  object, then boolean function
+ * checks if the action called is a request or response using the boolean.
  */
 
 public class MessageAdapter extends BaseAdapter {
@@ -48,11 +49,11 @@ public class MessageAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View convertView, ViewGroup parent) {
+    public View getView(int i, View view, ViewGroup parent) {
         MessageData message = (MessageData) chatMessageList.get(i);
-        View vi = convertView;
+        View vi = view;
 
-        if(convertView == null)
+        if(view == null)
             vi = inflater.inflate(R.layout.activity_layout, null);
 
         TextView txtMsg = (TextView) vi.findViewById(R.id.txtMessage);
@@ -64,15 +65,15 @@ public class MessageAdapter extends BaseAdapter {
         // checks if action is from User and align the message to the right
         if (message.isUser) {
             System.out.println("Yes This is a User++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"+message.isUser);
-            linearLayout.setGravity(Gravity.RIGHT);
+            linearLayout.setGravity(Gravity.END);
             txtMsg.setBackgroundResource(R.drawable.outgoing_message);
-            linearLayoutParent.setGravity(Gravity.RIGHT);
+            linearLayoutParent.setGravity(Gravity.END);
         }
         // checks if action is from google and align the message to the left
         else {
-            linearLayout.setGravity(Gravity.LEFT);
+            linearLayout.setGravity(Gravity.START);
             txtMsg.setBackgroundResource(R.drawable.incoming_message);
-            linearLayoutParent.setGravity(Gravity.LEFT);
+            linearLayoutParent.setGravity(Gravity.START);
         }
         return vi;
     }

@@ -1,4 +1,4 @@
-package com.project.dalconnect.chatbot;
+package ca.connect.dal.dalconnect;
 
         import android.support.v7.app.AppCompatActivity;
         import android.os.Bundle;
@@ -40,7 +40,7 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-        //Currently supported language
+        //Currently supported language; the set the language to english
         final AIConfiguration.SupportedLanguages lang =
                 AIConfiguration.SupportedLanguages.fromLanguageTag("en");
 

@@ -1,4 +1,4 @@
-package com.project.dalconnect.chatbot;
+package ca.connect.dal.dalconnect;
 
 /**
  * Created by hugokwe on 3/1/2018.
