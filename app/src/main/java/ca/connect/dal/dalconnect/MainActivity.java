@@ -18,4 +18,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent=new Intent(this,ListViewActivity.class);
         startActivity(intent);
     }
+
+    public void chatBot(View view) {
+        Intent intent=new Intent(this,ChatActivity.class);
+        startActivity(intent);
+    }
 }
