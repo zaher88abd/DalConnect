@@ -25,5 +25,6 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-    compile 'ai.api:libai:1.5.10'
+    implementation 'ai.api:libai:1.6.12'
+    implementation 'ai.api:sdk:2.0.7@aar'
 }
