@@ -3,9 +3,11 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/DalConnect.iml" filepath="$PROJECT_DIR$/DalConnect.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/DalConnect-app.iml" filepath="$PROJECT_DIR$/app/DalConnect-app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/GitHub-DalConnect.iml" filepath="$PROJECT_DIR$/GitHub-DalConnect.iml" />
+      <module fileurl="file://C:\Users\Jesuseyi Fasuyi\AndroidStudioProjects\Dal\DalConnect\DalConnect.iml" filepath="C:\Users\Jesuseyi Fasuyi\AndroidStudioProjects\Dal\DalConnect\DalConnect.iml" />
+      <module fileurl="file://C:\Users\Jesuseyi Fasuyi\AndroidStudioProjects\Dal\DalConnect\app\DalConnect-app.iml" filepath="C:\Users\Jesuseyi Fasuyi\AndroidStudioProjects\Dal\DalConnect\app\DalConnect-app.iml" />
+      <module fileurl="file://C:\Users\Jesuseyi Fasuyi\AndroidStudioProjects\Dal\DalConnect\GitHub-DalConnect.iml" filepath="C:\Users\Jesuseyi Fasuyi\AndroidStudioProjects\Dal\DalConnect\GitHub-DalConnect.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\Jesuseyi Fasuyi\AndroidStudioProjects\Dal\DalConnect\app\app.iml" filepath="C:\Users\Jesuseyi Fasuyi\AndroidStudioProjects\Dal\DalConnect\app\app.iml" />
     </modules>
   </component>
 </project>
