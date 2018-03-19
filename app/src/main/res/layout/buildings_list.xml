@@ -4,16 +4,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Test the list" />
-
-    <ListView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/lvBuildings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FF0000"
         android:paddingTop="10dp"
         android:scrollbars="vertical" />
 </LinearLayout>
