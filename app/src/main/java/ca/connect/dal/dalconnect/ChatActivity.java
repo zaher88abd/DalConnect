@@ -176,7 +176,8 @@ public class ChatActivity extends AppCompatActivity implements LocationListener 
                     Log.i(LOG_TAG, "context name: " + context.getName());
                     contextNames.add(context.getName());
                 }
-                if (contextNames.contains("going") && contextNames.contains("car")) {
+                if (!contextNames.isEmpty() &&
+                        contextNames.contains("going") && contextNames.contains("car")) {
                     findFastRout();
                 }
 
@@ -217,13 +218,13 @@ public class ChatActivity extends AppCompatActivity implements LocationListener 
 //        <item>Kenneth c Rowe,44.637006,-63.5882477</item>
         String buildingInfo = "Kenneth c Rowe";
         //User location
+        Location location=getLastKnownLocation();
+        String latitude1 = String.valueOf(location.getLatitude());
+        String longitude1 = String.valueOf(location.getLongitude());
 //        <item>Killam Memorial library (KML),44.6374177,-63.5921144</item>
-        String latitude1 = String.valueOf("44.6374177");
-        String longitude1 = String.valueOf("-63.5921144");
+        String latitude2 = String.valueOf("44.6374177");
+        String longitude2 = String.valueOf("-63.5921144");
 //               Building Location
-        String latitude2 = buildingInfo.split(",")[1];
-        String longitude2 = buildingInfo.split(",")[2];
-
         String uri = "http://maps.google.com/maps?f=d&hl=en&saddr=" + latitude1 + "," + longitude1 + "&daddr=" + latitude2 + "," + longitude2;
 //        Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
 //        startActivity(Intent.createChooser(intent, "Select an application"));
@@ -270,4 +271,21 @@ public class ChatActivity extends AppCompatActivity implements LocationListener 
     public void onProviderDisabled(String s) {
 
     }
+    private Location getLastKnownLocation() {
+        locationManager = (LocationManager)getApplicationContext().getSystemService(LOCATION_SERVICE);
+        List<String> providers = locationManager.getProviders(true);
+        Location bestLocation = null;
+        for (String provider : providers) {
+            @SuppressLint("MissingPermission") Location l = locationManager.getLastKnownLocation(provider);
+            if (l == null) {
+                continue;
+            }
+            if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy()) {
+                // Found best last known location: %s", l);
+                bestLocation = l;
+            }
+        }
+        return bestLocation;
+    }
 }
+//https://stackoverflow.com/questions/20438627/getlastknownlocation-returns-null
