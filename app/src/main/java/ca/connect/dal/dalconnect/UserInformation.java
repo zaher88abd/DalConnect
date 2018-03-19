@@ -6,6 +6,7 @@ package ca.connect.dal.dalconnect;;import android.graphics.Bitmap;
 
 public class UserInformation {
 
+    private String UID;
     private String Username;
     private String Dalid;
     private String Country;
@@ -111,6 +112,14 @@ public class UserInformation {
 
     public void setUserImage(String userImage) {
         this.userImage = userImage;
+    }
+
+    public String getUID() {
+        return UID;
+    }
+
+    public void setUID(String UID) {
+        this.UID = UID;
     }
 }
 

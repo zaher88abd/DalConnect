@@ -41,7 +41,7 @@ public class FileStorageUtils
         return instance;
     }
 
-    public void loadImage(final String portraitName, final String userName, final ViewGroup viewGroup, final LruCache<String, BitmapDrawable> mImageCache)
+    public void loadImage(final String portraitName, final String userName, final ViewGroup viewGroup)
     {
 
         StorageReference storageRef = storage.getReference().child("Portraits/"+ portraitName);
@@ -59,7 +59,7 @@ public class FileStorageUtils
                     if (iv != null ) {
                         Bitmap bitmap = getBitmap(localFile);
                         iv.setImageBitmap(bitmap);
-                        mImageCache.put(portraitName, new BitmapDrawable(bitmap));
+                        PortraitUtils.getInstance().setPortraitbyName(portraitName, new BitmapDrawable(bitmap));
                     }
                 }
             }).addOnFailureListener(new OnFailureListener() {

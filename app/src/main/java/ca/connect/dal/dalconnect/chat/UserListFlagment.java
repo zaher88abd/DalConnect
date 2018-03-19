@@ -56,9 +56,9 @@ public class UserListFlagment extends Fragment
                             UserInformation secondUser = user_list.get(i);
                             FirebaseUser currentUser = AuthUtils.getInstance().getCurrentUser();
 
-                            String id = AuthUtils.getInstance().generateRoomId(currentUser.getUid(), secondUser.getUID());
+                            String room_id = AuthUtils.getInstance().generateRoomId(currentUser.getUid(), secondUser.getUID());
                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                            fragmentTransaction.replace(R.id.fragment_container, ChatFragment.newInstance(secondUser.getUsername(), id));
+                            fragmentTransaction.replace(R.id.fragment_container, ChatFragment.newInstance(secondUser.getUID(), secondUser.getUsername(), secondUser.getUserImage(), room_id));
                             fragmentTransaction.commit();
 
                         }

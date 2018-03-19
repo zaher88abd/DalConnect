@@ -18,9 +18,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import ca.connect.dal.dalconnect.R;
+import ca.connect.dal.dalconnect.UserInformation;
 import ca.connect.dal.dalconnect.chat.model.Message;
 import ca.connect.dal.dalconnect.util.AuthUtils;
 
@@ -28,13 +31,24 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
 
     private ImageButton btnSend;
     private EditText editWriteMessage;
+    //receiver info
+    private String uid = null;
     private String userName = null;
+    private String userPortrait = null;
+    ///////////////////////////////////
     private String roomId = null;
     private ListView listView = null;
-    private ArrayAdapter<String> itemsAdapter;
+
+    private ChatListAdapter chatListAdapter;
+
+
+    //private ArrayAdapter<String> itemsAdapter;
 
     public static final String USER_NAME = "user_name";
     public static final String ROOM_ID = "room_id";
+    public static final String USER_PORTRAIT = "user_portrait";
+    public static final String UID_STR = "uid";
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,16 +57,21 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
         Bundle bundle = getArguments();
         if (bundle != null)
         {
+            uid = bundle.getString(UID_STR);
             userName = bundle.getString(USER_NAME);
+            userPortrait = bundle.getString(USER_PORTRAIT);
             roomId = bundle.getString(ROOM_ID);
+
         }
     }
 
-    public static ChatFragment newInstance(String user_name, String room_id)
+    public static ChatFragment newInstance(String uid, String user_name, String user_portrait, String room_id)
     {
         Bundle bundle = new Bundle();
+        bundle.putString(UID_STR, uid);
         bundle.putString(USER_NAME, user_name);
         bundle.putString(ROOM_ID, room_id);
+        bundle.putString(USER_PORTRAIT, user_portrait);
         ChatFragment chatFragment = new ChatFragment();
         chatFragment.setArguments(bundle);
         return chatFragment;
@@ -66,13 +85,8 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
                 if (dataSnapshot.getValue() != null) {
                     HashMap mapMessage = (HashMap) dataSnapshot.getValue();
 
-                    String sender = (String) mapMessage.get("idSender");
-                    //if(!userName.equals(sender))
-                    //{
-                    itemsAdapter.add(sender + ": " + mapMessage.get("text"));
-                    //}
-
-
+                    Message messenge = dataSnapshot.getValue(Message.class);
+                    chatListAdapter.addMessage(messenge);
                 }
             }
 
@@ -103,7 +117,15 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.activity_chat, container, false);
-        listView = (ListView) view.findViewById(R.id.lv_id);
+        listView = (ListView)view.findViewById(R.id.listChat);
+        chatListAdapter = new ChatListAdapter();
+        listView.setAdapter(chatListAdapter);
+
+
+        /*itemsAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1);
+        itemsAdapter.clear();*/
+        //listView.setAdapter(itemsAdapter);
+
 
         btnSend = (ImageButton) view.findViewById(R.id.btnSend);
         btnSend.setOnClickListener(this);
@@ -111,12 +133,6 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
 
         editWriteMessage = (EditText) view.findViewById(R.id.editWriteMessage);
 
-
-        itemsAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1);
-        itemsAdapter.clear();
-
-        listView = (ListView)view.findViewById(R.id.listChat);
-        listView.setAdapter(itemsAdapter);
 
         onReceiveMessages();
         getActivity().setTitle(userName);
@@ -131,10 +147,12 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
             if (content.length() > 0) {
                 editWriteMessage.setText("");
                 Message newMessage = new Message();
-                newMessage.text = content;
-                newMessage.idSender = AuthUtils.getInstance().getCurrentUserDisplayName();
-                newMessage.idReceiver = "";
-                newMessage.timestamp = System.currentTimeMillis();
+                newMessage.setText(content);
+                newMessage.setIdSender(AuthUtils.getInstance().getCurrentUId());
+                newMessage.setSenderPortrait(AuthUtils.getInstance().getCurrentUId());
+                newMessage.setIdReceiver(this.uid);
+                newMessage.setReceiverPortrait(this.userPortrait);
+                newMessage.setTimestamp(System.currentTimeMillis());
                 FirebaseDatabase.getInstance().getReference().child("Dal_Chat/message/" + roomId).push().setValue(newMessage);
 
             }

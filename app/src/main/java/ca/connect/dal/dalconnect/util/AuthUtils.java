@@ -59,6 +59,19 @@ public class AuthUtils {
         return mAuth.getCurrentUser();
     }
 
+    public String getCurrentUId()
+    {
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        if(user == null)
+        {
+            return null;
+        }
+
+        return user.getUid();
+
+    }
+
     public String getCurrentUserDisplayName()
     {
         FirebaseUser user = mAuth.getCurrentUser();

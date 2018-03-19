@@ -15,6 +15,7 @@ import java.util.List;
 import ca.connect.dal.dalconnect.R;
 import ca.connect.dal.dalconnect.UserInformation;
 import ca.connect.dal.dalconnect.util.FileStorageUtils;
+import ca.connect.dal.dalconnect.util.PortraitUtils;
 
 /**
  * Created by gaoyounan on 2018/3/8.
@@ -23,8 +24,7 @@ import ca.connect.dal.dalconnect.util.FileStorageUtils;
 public class UserListAdapter extends BaseAdapter
 {
     private List<UserInformation> user_list;
-
-    private LruCache<String, BitmapDrawable> mImageCache;
+    private PortraitUtils portraitInstance;
 
     public UserListAdapter() {}
 
@@ -33,14 +33,8 @@ public class UserListAdapter extends BaseAdapter
         super();
         this.user_list = user_list;
 
-        int maxCache = (int) Runtime.getRuntime().maxMemory();
-        int cacheSize = maxCache / 8;
-        mImageCache = new LruCache<String, BitmapDrawable>(cacheSize) {
-            @Override
-            protected int sizeOf(String key, BitmapDrawable value) {
-                return value.getBitmap().getByteCount();
-            }
-        };
+        portraitInstance = PortraitUtils.getInstance();
+
     }
 
     @Override
@@ -83,7 +77,7 @@ public class UserListAdapter extends BaseAdapter
 
         if(portrait_name != null && !"".equals(portrait_name))
         {
-            BitmapDrawable bitmapDrawableTemp = mImageCache.get(portrait_name);
+            BitmapDrawable bitmapDrawableTemp = portraitInstance.getPortraitByName(portrait_name);
 
             if(bitmapDrawableTemp != null)
             {
@@ -91,7 +85,7 @@ public class UserListAdapter extends BaseAdapter
             }
             else
             {
-                FileStorageUtils.getInstance().loadImage(portrait_name , user.getUsername(), viewGroup, mImageCache);
+                FileStorageUtils.getInstance().loadImage(portrait_name , user.getUsername(), viewGroup);
             }
         }
 
