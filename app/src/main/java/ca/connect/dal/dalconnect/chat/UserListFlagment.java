@@ -2,6 +2,9 @@ package ca.connect.dal.dalconnect.chat;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -227,6 +230,14 @@ public class UserListFlagment extends Fragment
             }
 
             userListAdapter.putUnReadMessageMap(index, num_of_unread_message);
+
+            if(num_of_unread_message > 0)
+            {
+                Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                Ringtone rt = RingtoneManager.getRingtone(getContext(), uri);
+                rt.play();
+            }
+
         }
 
     }
