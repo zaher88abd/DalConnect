@@ -21,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ca.connect.dal.dalconnect.R;
 import ca.connect.dal.dalconnect.UserInformation;
@@ -49,6 +50,14 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
     public static final String USER_PORTRAIT = "user_portrait";
     public static final String UID_STR = "uid";
 
+    private ChildEventListener childEventListener;
+
+    @Override
+    public void onDestroyView() {
+
+        super.onDestroyView();
+        FirebaseDatabase.getInstance().getReference().child("Dal_Chat/message/" + roomId).removeEventListener(childEventListener);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -79,7 +88,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
 
     private void onReceiveMessages()
     {
-        FirebaseDatabase.getInstance().getReference().child("Dal_Chat/message/" + roomId).addChildEventListener(new ChildEventListener() {
+        childEventListener = FirebaseDatabase.getInstance().getReference().child("Dal_Chat/message/" + roomId).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 if (dataSnapshot.getValue() != null) {
@@ -87,6 +96,20 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
 
                     Message messenge = dataSnapshot.getValue(Message.class);
                     chatListAdapter.addMessage(messenge);
+
+                    if(messenge.getIdReceiver().equals(AuthUtils.getInstance().getCurrentUId()))
+                    {
+                        StringBuffer path_str = new StringBuffer("Dal_Chat/message/");
+                        path_str.append(roomId);
+                        path_str.append('/');
+                        path_str.append(dataSnapshot.getKey());
+                        path_str.append('/');
+                        path_str.append("read");
+
+                        Map<String, Object> childUpdates = new HashMap<>();
+                        childUpdates.put(path_str.toString(), true);
+                        FirebaseDatabase.getInstance().getReference().updateChildren(childUpdates);
+                    }
                 }
             }
 
@@ -147,6 +170,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
             if (content.length() > 0) {
                 editWriteMessage.setText("");
                 Message newMessage = new Message();
+                newMessage.setRead(false);
                 newMessage.setText(content);
                 newMessage.setIdSender(AuthUtils.getInstance().getCurrentUId());
                 newMessage.setSenderPortrait(AuthUtils.getInstance().getCurrentUId());

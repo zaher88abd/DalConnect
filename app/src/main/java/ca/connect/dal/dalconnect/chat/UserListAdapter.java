@@ -8,9 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ca.connect.dal.dalconnect.R;
 import ca.connect.dal.dalconnect.UserInformation;
@@ -25,6 +28,8 @@ public class UserListAdapter extends BaseAdapter
 {
     private List<UserInformation> user_list;
     private PortraitUtils portraitInstance;
+
+    private Map<Integer, Integer> unReadMessageMap = new HashMap<Integer, Integer>();
 
     public UserListAdapter() {}
 
@@ -67,6 +72,24 @@ public class UserListAdapter extends BaseAdapter
         ImageView image_portrait = (ImageView) convertView.findViewById(R.id.id_image);
         TextView tv_username = (TextView) convertView.findViewById(R.id.id_username);
         TextView tv_country = (TextView) convertView.findViewById(R.id.id_country);
+        TextView tv_unRead_message = (TextView) convertView.findViewById(R.id.id_message_numbers);
+        tv_unRead_message.setText("");
+
+        ListView listView = (ListView) viewGroup;
+
+        Integer num = unReadMessageMap.get(i);
+
+        if(num != null)
+        {
+            if(num > 0)
+            {
+                tv_unRead_message.setText(""+num);
+            }
+            else
+            {
+                tv_unRead_message.setText("");
+            }
+        }
 
         tv_username.setText(user.getUsername());
         tv_country.setText(user.getCountry());
@@ -92,6 +115,13 @@ public class UserListAdapter extends BaseAdapter
         return convertView;
     }
 
+    public void putUnReadMessageMap(Integer index, Integer num)
+    {
+        unReadMessageMap.put(index, num);
+    }
 
-
+    public Integer getUnReadMessageNumByIndex(Integer index)
+    {
+        return unReadMessageMap.get(index);
+    }
 }

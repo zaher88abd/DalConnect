@@ -41,6 +41,46 @@ public class FileStorageUtils
         return instance;
     }
 
+    public void loadImage(final String portraitName, final ImageView iv)
+    {
+
+        StorageReference storageRef = storage.getReference().child("Portraits/"+ portraitName);
+
+        try
+        {
+            final File  localFile = File.createTempFile(portraitName, "jpg");
+
+            storageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    // Local temp file has been created
+
+                    if (iv != null ) {
+                        Bitmap bitmap = getBitmap(localFile);
+                        iv.setImageBitmap(bitmap);
+                        PortraitUtils.getInstance().setPortraitbyName(portraitName, new BitmapDrawable(bitmap));
+                    }
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle any errors
+
+                    System.out.println("Handle any errors");
+                }
+            });
+
+
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+
     public void loadImage(final String portraitName, final String userName, final ViewGroup viewGroup)
     {
 

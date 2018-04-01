@@ -1,5 +1,6 @@
 package ca.connect.dal.dalconnect.chat;
 
+import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import java.util.List;
 import ca.connect.dal.dalconnect.R;
 import ca.connect.dal.dalconnect.chat.model.Message;
 import ca.connect.dal.dalconnect.util.AuthUtils;
+import ca.connect.dal.dalconnect.util.FileStorageUtils;
 import ca.connect.dal.dalconnect.util.PortraitUtils;
 
 /**
@@ -64,7 +66,18 @@ public class ChatListAdapter extends BaseAdapter
             ImageView my_portrait = (ImageView) view.findViewById(R.id.id_image_myself);
             TextView chat_text = (TextView) view.findViewById(R.id.id_chat_myself);
 
-            my_portrait.setImageDrawable(PortraitUtils.getInstance().getPortraitByName(message.getSenderPortrait()));
+            BitmapDrawable bitmapDrawable = PortraitUtils.getInstance().getPortraitByName(message.getSenderPortrait());
+
+            if(bitmapDrawable != null)
+            {
+                my_portrait.setImageDrawable(PortraitUtils.getInstance().getPortraitByName(message.getSenderPortrait()));
+            }
+            else
+            {
+                FileStorageUtils.getInstance().loadImage(message.getSenderPortrait(), my_portrait);
+            }
+
+
             chat_text.setText(message.getText());
         }
         else
@@ -75,7 +88,18 @@ public class ChatListAdapter extends BaseAdapter
             ImageView other_portrait = (ImageView) view.findViewById(R.id.id_image_other);
             TextView chat_text = (TextView) view.findViewById(R.id.id_chat_text_other);
 
-            other_portrait.setImageDrawable(PortraitUtils.getInstance().getPortraitByName(message.getSenderPortrait()));
+            BitmapDrawable bitmapDrawable = PortraitUtils.getInstance().getPortraitByName(message.getSenderPortrait());
+
+            if(bitmapDrawable != null)
+            {
+                other_portrait.setImageDrawable(PortraitUtils.getInstance().getPortraitByName(message.getSenderPortrait()));
+            }
+            else
+            {
+                FileStorageUtils.getInstance().loadImage(message.getSenderPortrait(), other_portrait);
+            }
+
+
             chat_text.setText(message.getText());
         }
 

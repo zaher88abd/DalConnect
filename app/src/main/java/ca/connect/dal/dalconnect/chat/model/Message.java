@@ -3,6 +3,8 @@ package ca.connect.dal.dalconnect.chat.model;
 
 
 public class Message {
+
+    private boolean read = false;
     private String idSender;
     private String idReceiver;
     private String text;
@@ -10,6 +12,14 @@ public class Message {
 
     private String senderPortrait;
     private String receiverPortrait;
+
+    public boolean isRead() {
+        return read;
+    }
+
+    public void setRead(boolean read) {
+        this.read = read;
+    }
 
     public String getIdSender() {
         return idSender;
