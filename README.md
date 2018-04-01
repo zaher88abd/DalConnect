@@ -37,19 +37,18 @@ List all the main features of your application with a brief description of each 
 Write a description of the final status of the project. Did you achieve all your goals? What would be the next step for this project (if it were to continue)?
 
 #### Minimum Functionality
-- Feature 1 name (Completed)
-- Feature 2 name (Partially Completed)
-- Feature 3 (Not Implemented)
+- Building's index (Completed)
+- User registration (Completed)
+- To-do list (Completed)
 
 #### Expected Functionality
-- Feature 1 name (Completed)
-- Feature 2 name (Partially Completed)
-- Feature 3 (Not Implemented)
+- User Chat(Texting) (Completed)
+- Matching (Find friends by country) (Completed)
+- New Messages Notification (Completed)
+-
 
 #### Bonus Functionality
-- Feature 1 name (Completed)
-- Feature 2 name (Partially Completed)
-- Feature 3 (Not Implemented)
+- Chatbot(Completed)
 
 ## Sources
 Use IEEE citation style.
