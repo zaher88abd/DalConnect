@@ -104,9 +104,17 @@ public class UserListFlagment extends Fragment
         super.onDestroyView();
 
         Query myTopPostsQuery = FirebaseDatabase.getInstance().getReference().child("users");
-        myTopPostsQuery.removeEventListener(valueEventListener);
 
-        FirebaseDatabase.getInstance().getReference().child("Dal_Chat/message/").removeEventListener(childEventListener);
+        if(valueEventListener != null)
+        {
+            myTopPostsQuery.removeEventListener(valueEventListener);
+        }
+
+        if(childEventListener !=null )
+        {
+            FirebaseDatabase.getInstance().getReference().child("Dal_Chat/message/").removeEventListener(childEventListener);
+        }
+
     }
 
 
