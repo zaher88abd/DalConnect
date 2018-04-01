@@ -42,10 +42,33 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        if(firebaseAuth.getCurrentUser() != null) {
+        /*if(firebaseAuth.getCurrentUser() != null) {
             finish();
             startActivity(new Intent(getApplicationContext(),profileActivity.class)); //profile activity here
-        }
+        }*/
+
+        /*firebaseAuth.signInWithEmailAndPassword("gaoyounan@foxmail.com","123456GYNg")
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        progressDialog.dismiss();
+                        if (task.isSuccessful()) {
+
+                            //uder registred succcefulluy\
+                            finish();
+                            startActivity(new Intent(getApplicationContext(), NavigationActivity.class));
+
+
+                        }
+
+                        else{
+                            showErrorDialog();
+                        }
+
+                    }
+
+                });*/
+
 
         setUpViews();
         setUpListeners();

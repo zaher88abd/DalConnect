@@ -40,6 +40,8 @@ public class UserListFlagment extends Fragment
     private ListView listView;
     private UserListAdapter userListAdapter;
     private List<UserInformation> user_list = new ArrayList<UserInformation>();
+    private List<UserInformation> user_list_all = new ArrayList<UserInformation>();
+    private String country = "";
     private List<String> room_id_list = new ArrayList<String>();
 
     private ValueEventListener valueEventListener;
@@ -140,8 +142,26 @@ public class UserListFlagment extends Fragment
                     System.out.println("Success");
                     user = postSnapshot.getValue(UserInformation.class);
                     user.setUID(postSnapshot.getKey());
-                    user_list.add(user);
-                    room_id_list.add(authUtilsInstance.generateRoomId(user.getUID(), authUtilsInstance.getCurrentUId()));
+                    user_list_all.add(user);
+
+                    if(user.getUID().equals(authUtilsInstance.getCurrentUId()))
+                    {
+                        country = user.getCountry();
+                    }
+                    //room_id_list.add(authUtilsInstance.generateRoomId(user.getUID(), authUtilsInstance.getCurrentUId()));
+                }
+
+                if(user_list_all.size() > 0)
+                {
+                    for(UserInformation userTemp : user_list_all)
+                    {
+                        if(userTemp.getCountry().equals(country))
+                        {
+                            user_list.add(userTemp);
+                            room_id_list.add(authUtilsInstance.generateRoomId(userTemp.getUID(), authUtilsInstance.getCurrentUId()));
+                        }
+
+                    }
                 }
 
                 mHandler.obtainMessage(0).sendToTarget();
