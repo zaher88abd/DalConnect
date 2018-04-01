@@ -1,6 +1,5 @@
 # DAL CONNECT
-
-Dal connect is an application that helps international students integrate into the Dalhousie environment as seamlessly and fast as possible. Dal connect is designed to connect new international students together and also provide them with valuable information,Dal connect privides users with in-app information such as directions, transportation and place information also well as budget calculator and a new-student to do list. This information would be invaluable to new students at Dal and would help them acclimatize to the system swiftly.
+Dal connect is an application that helps international students integrate into the Dalhousie environment as seamlessly and fast as possible. It is designed to connect new international students together and also provide students with valuable information,Dal connect is an essential application because it helps solve some of the challenges international students face ranging from questions about getting directions to budget planning and questions about classes, courses and general lifestyle in Dalhousie. Features implemented on this include, buildings location and direction, new students to-do list, student chat and budget calculation.
 
 
 ## Libraries
