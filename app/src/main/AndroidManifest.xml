@@ -45,7 +45,7 @@
 
         <activity android:name=".TodoActivity" />
         <activity android:name=".ChatActivity" />
-        <activity android:name=".ListViewActivity" />
+        <activity android:name=".MapActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

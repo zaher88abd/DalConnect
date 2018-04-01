@@ -16,15 +16,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Toast;
-
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.ArrayList;
 
@@ -33,7 +25,7 @@ import java.util.ArrayList;
  * this activity for buildings list and direct to google map application.
  */
 
-public class ListViewActivity extends AppCompatActivity implements LocationListener {
+public class MapActivity extends AppCompatActivity implements LocationListener {
 
     String[] buildings;
     private Location userLocation;
@@ -70,7 +62,7 @@ public class ListViewActivity extends AppCompatActivity implements LocationListe
             @Override
             public void recyclerViewListClicked(int position) {
                 if (userLocation == null) {
-                    Toast.makeText(ListViewActivity.this, "No location", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MapActivity.this, "No location", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 String buildingInfo = buildings[position];
