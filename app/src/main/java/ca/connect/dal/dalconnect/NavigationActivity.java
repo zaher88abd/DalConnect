@@ -153,8 +153,12 @@ public class NavigationActivity extends AppCompatActivity
             Intent intent = new Intent(this, TodoActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_slideshow) {
+            Intent intent = new Intent(this, ChatActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_manage) {
+            Intent intent = new Intent(this, MapActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_logout) {
             try {
