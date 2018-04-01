@@ -1,36 +1,36 @@
 package ca.connect.dal.dalconnect;
 
-        import android.app.AlertDialog;
-        import android.support.annotation.NonNull;
-        import android.support.design.widget.FloatingActionButton;
-        import android.support.v7.app.AppCompatActivity;
-        import android.os.Bundle;
-        import android.support.v7.widget.LinearLayoutManager;
-        import android.support.v7.widget.RecyclerView;
-        import android.view.MenuItem;
-        import android.view.View;
-        import android.widget.Toast;
+import android.app.AlertDialog;
+import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
-        import com.google.android.gms.tasks.OnCompleteListener;
-        import com.google.android.gms.tasks.OnFailureListener;
-        import com.google.android.gms.tasks.OnSuccessListener;
-        import com.google.android.gms.tasks.Task;
-        import com.google.firebase.firestore.DocumentSnapshot;
-        import com.google.firebase.firestore.EventListener;
-        import com.google.firebase.firestore.FirebaseFirestore;
-        import com.google.firebase.firestore.FirebaseFirestoreException;
-        import com.google.firebase.firestore.QuerySnapshot;
-        import com.rengwuxian.materialedittext.MaterialEditText;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.rengwuxian.materialedittext.MaterialEditText;
 
-        import java.util.ArrayList;
-        import java.util.HashMap;
-        import java.util.List;
-        import java.util.Map;
-        import java.util.UUID;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
-        import ca.connect.dal.dalconnect.Adapter.ListItemAdapter;
-        import ca.connect.dal.dalconnect.Model.ToDo;
-        import dmax.dialog.SpotsDialog;
+import ca.connect.dal.dalconnect.Adapter.ListItemAdapter;
+import ca.connect.dal.dalconnect.Model.ToDo;
+import dmax.dialog.SpotsDialog;
 
 public class TodoActivity extends AppCompatActivity {
 
@@ -65,11 +65,9 @@ public class TodoActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!isUpdate){
+                if (!isUpdate) {
                     setData(title.getText().toString(), detail.getText().toString());
-                }
-                else
-                {
+                } else {
                     updateData(title.getText().toString(), detail.getText().toString());
                     isUpdate = !isUpdate;
                 }
@@ -89,9 +87,9 @@ public class TodoActivity extends AppCompatActivity {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        if(item.getTitle().equals("Delete")){
+        if (item.getTitle().equals("Delete")) {
             deleteItem(item.getOrder());
-        }else if(item.getTitle().equals("Set Reminder")){
+        } else if (item.getTitle().equals("Set Reminder")) {
 
         }
         return super.onContextItemSelected(item);
@@ -132,10 +130,10 @@ public class TodoActivity extends AppCompatActivity {
 
     private void setData(String title, String detail) {
         String id = UUID.randomUUID().toString();
-        Map<String,Object> todo = new HashMap<>();
-        todo.put("id",id);
-        todo.put("title",title);
-        todo.put("detail",detail);
+        Map<String, Object> todo = new HashMap<>();
+        todo.put("id", id);
+        todo.put("title", title);
+        todo.put("detail", detail);
 
         db.collection("TodoList").document(id)
                 .set(todo).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -148,14 +146,14 @@ public class TodoActivity extends AppCompatActivity {
 
     private void loadData() {
         dialog.show();
-        if(todoList.size() > 0)
+        if (todoList.size() > 0)
             todoList.clear();
         db.collection("TodoList")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        for(DocumentSnapshot doc:task.getResult()){
+                        for (DocumentSnapshot doc : task.getResult()) {
                             ToDo todo = new ToDo(doc.getString("id"),
                                     doc.getString("title"),
                                     doc.getString("detail"));
@@ -169,7 +167,7 @@ public class TodoActivity extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(TodoActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(TodoActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }

@@ -33,9 +33,9 @@ import java.io.File;
 import ca.connect.dal.dalconnect.chat.UserListFlagment;
 
 public class NavigationActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+        implements NavigationView.OnNavigationItemSelectedListener {
     NavigationView navigationView = null;
-    Toolbar toolbar =null;
+    Toolbar toolbar = null;
 
 
     private TextView userName;
@@ -150,15 +150,16 @@ public class NavigationActivity extends AppCompatActivity
 
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
-
+            Intent intent = new Intent(this, TodoActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_logout) {
-            try{
+            try {
                 preLogoutMessage();
-            } catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -168,8 +169,8 @@ public class NavigationActivity extends AppCompatActivity
         return true;
     }
 
-    private void setNavHeaderDetails(){
-        try{
+    private void setNavHeaderDetails() {
+        try {
 
             UserInformation userInfo = pref.getUserDetails();
 
@@ -182,7 +183,7 @@ public class NavigationActivity extends AppCompatActivity
 
             String portraitId = pref.getPortraitId();
 
-            StorageReference ref = storageReference.child("Portraits/"+ portraitId);
+            StorageReference ref = storageReference.child("Portraits/" + portraitId);
 
             Log.i("TAG", "portraitId: " + portraitId);
             Log.i("TAG", "ref: " + ref);
@@ -190,7 +191,7 @@ public class NavigationActivity extends AppCompatActivity
 
             final File destinationFile = null;
 
-            try{
+            try {
                 ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
@@ -206,25 +207,23 @@ public class NavigationActivity extends AppCompatActivity
                         // Handle any errors
                     }
                 });
-            } catch (Exception e){
+            } catch (Exception e) {
 // Error
             }
 
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void preLogoutMessage(){
-        try{
+    public void preLogoutMessage() {
+        try {
             AlertDialog.Builder builder = new AlertDialog.Builder(NavigationActivity.this);
             builder.setMessage("Are you sure you want to logout?")
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             new LogoutProcess().execute();
-
                             dialog.dismiss();
-
                         }
                     })
                     .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -236,7 +235,7 @@ public class NavigationActivity extends AppCompatActivity
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
 
-        } catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -256,11 +255,11 @@ public class NavigationActivity extends AppCompatActivity
 
             int result = 0;
 
-            try{
+            try {
                 firebaseAuth.signOut();
 
                 return result;
-            } catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return result;
