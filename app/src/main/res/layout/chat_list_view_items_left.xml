@@ -5,17 +5,28 @@
 
     <ImageView
         android:id="@+id/id_image_other"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:padding="5dp"
         android:layout_alignParentLeft="true"
         android:src="@drawable/icon" />
 
     <TextView
-        android:id="@+id/id_chat_text_other"
+        android:id="@+id/id_chat_time_other"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
+        android:text="April 45 2018"
+        android:textSize="10sp"
+        android:textColor="#a4c639"
+        android:gravity="center"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/id_chat_text_other"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:layout_toRightOf="@id/id_image_other"
         android:text="hahahahahahaha"
         android:textSize="14sp"
