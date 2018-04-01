@@ -2,7 +2,6 @@ package ca.connect.dal.dalconnect;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -14,11 +13,9 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -68,7 +65,7 @@ public class MatchListFragment extends Fragment {
 
         if(firebaseAuth.getCurrentUser() == null) {
             getActivity().finish();
-            startActivity(new Intent(getActivity(), loginActivity.class)); //profile activity here
+            startActivity(new Intent(getActivity(), LoginActivity.class)); //profile activity here
         }
 
         setUpViews(view);
@@ -217,5 +214,4 @@ public class MatchListFragment extends Fragment {
 
         }
     }
-
 }

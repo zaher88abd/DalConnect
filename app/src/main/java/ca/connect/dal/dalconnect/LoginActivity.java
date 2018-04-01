@@ -3,7 +3,6 @@ package ca.connect.dal.dalconnect;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -25,10 +24,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class loginActivity extends AppCompatActivity implements View.OnClickListener {
-
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button buttonSignIn;
+    private Button buttonForgotPassword;
     private EditText editTextEmail;
     private EditText editTextPassword;
     private TextView textViewSignup;
@@ -44,7 +43,7 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
 
         if(firebaseAuth.getCurrentUser() != null) {
             finish();
-            startActivity(new Intent(getApplicationContext(),profileActivity.class)); //profile activity here
+            startActivity(new Intent(getApplicationContext(), NavigationActivity.class)); //profile activity here
         }
 
         setUpViews();
@@ -55,19 +54,25 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
 
     private void setUpViews(){
         buttonSignIn = (Button) findViewById(R.id.buttonSignIn);
+        buttonForgotPassword = (Button) findViewById(R.id.btn_forgot_password);
         editTextEmail = (EditText) findViewById(R.id.editTextEmail);
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
         textViewSignup = (TextView) findViewById(R.id.textViewSignup);
 
-        progressDialog = new ProgressDialog(loginActivity.this);
-
+        progressDialog = new ProgressDialog(LoginActivity.this);
     }
 
     private void setUpListeners(){
         buttonSignIn.setOnClickListener(this);
         textViewSignup.setOnClickListener(this);
 
-
+        buttonForgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, ResetPasswordActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void setUpValidationCheckers(){
@@ -119,8 +124,6 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
                             //uder registred succcefulluy\
                             finish();
                             startActivity(new Intent(getApplicationContext(), NavigationActivity.class));
-
-
                         }
 
                         else{
@@ -135,16 +138,16 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View view){
-            if(view == buttonSignIn){
-                userLogin();
-            }
+        if(view == buttonSignIn){
+            userLogin();
+        }
 
-            if (view == textViewSignup) {
-                finish();
-                startActivity(new Intent(this,RegistrationActivity.class));
+        if (view == textViewSignup) {
+            finish();
+            startActivity(new Intent(this,RegistrationActivity.class));
 
-                ///login activity
-            }
+            ///login activity
+        }
     }
 
     public void checkCorrectEmail (String emailEntered) {
@@ -170,7 +173,7 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
 
     private void showErrorDialog(){
         AlertDialog.Builder builder;
-        builder = new AlertDialog.Builder(loginActivity.this, android.R.style.Theme_Material_Dialog_Alert);
+        builder = new AlertDialog.Builder(LoginActivity.this, android.R.style.Theme_Material_Dialog_Alert);
         builder.setTitle("User Not Found")
                 .setMessage("Email/Password is incorrect")
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {

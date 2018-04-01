@@ -31,16 +31,19 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     private ProgressDialog progressDialog;
     private FirebaseAuth firebaseAuth;
 
+    private Preferences pref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        pref = new Preferences(RegistrationActivity.this);
 
         firebaseAuth = FirebaseAuth.getInstance();
         if(firebaseAuth.getCurrentUser() != null) {
             finish();
-            startActivity(new Intent(getApplicationContext(),profileActivity.class)); //profile activity here
+            startActivity(new Intent(getApplicationContext(), NavigationActivity.class)); //profile activity here
         }
 
         setUpViews();
@@ -131,9 +134,10 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            finish();
-                            startActivity(new Intent(getApplicationContext(),profileActivity.class)); //profile activity here
+                            pref.setIsFirstTime(true);
 
+                            startActivity(new Intent(getApplicationContext(), ProfileActivity.class)); //profile activity here
+                            finish();
 
                         } else {
                             Toast.makeText(RegistrationActivity.this, "failed to register",Toast.LENGTH_SHORT).show();
@@ -151,7 +155,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         }
 
         if (view == textViewSignin) {
-            startActivity(new Intent(this,loginActivity.class));
+            startActivity(new Intent(this,LoginActivity.class));
 
         }
     }

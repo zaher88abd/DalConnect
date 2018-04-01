@@ -54,7 +54,30 @@ public class Preferences {
         user.setPhonenumber(pref.getString("PhoneNumber", null));
         user.setProgram(pref.getString("Program", null));
         user.setStartTerm(pref.getString("StartTerm", null));
+        user.setStartTerm(pref.getString("StartTerm", null));
 
         return user;
+    }
+
+    public void setPortraitId(String portraitId){
+        editor.putString("PortraitId", portraitId);
+
+        // commit changes
+        editor.commit();
+    }
+
+    public String getPortraitId(){
+        return pref.getString("PortraitId", null);
+    }
+
+    public void setIsFirstTime(boolean isFirstTime){
+        editor.putBoolean("IsFirstTime", isFirstTime);
+
+        // commit changes
+        editor.commit();
+    }
+
+    public boolean getIsFirstTime(){
+        return pref.getBoolean("IsFirstTime", false);
     }
 }

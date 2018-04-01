@@ -3,13 +3,11 @@ package ca.connect.dal.dalconnect;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.media.Image;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -35,9 +33,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
-import java.util.UUID;
 
-public class profileActivity extends AppCompatActivity implements View.OnClickListener {
+public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextView textViewUserEmail;
     private FirebaseAuth firebaseAuth;
@@ -81,9 +78,10 @@ public class profileActivity extends AppCompatActivity implements View.OnClickLi
 
         if(firebaseAuth.getCurrentUser() == null) {
             finish();
-            startActivity(new Intent(this,loginActivity.class)); //profile activity here
+            startActivity(new Intent(this,LoginActivity.class)); //profile activity here
         }
-         databaseReference = FirebaseDatabase.getInstance().getReference();
+
+        databaseReference = FirebaseDatabase.getInstance().getReference();
 
         FirebaseUser user = firebaseAuth.getCurrentUser();
 
@@ -111,7 +109,7 @@ public class profileActivity extends AppCompatActivity implements View.OnClickLi
 
         buttonLogout = (Button) findViewById(R.id.buttonLogout);
 
-        pref = new Preferences(profileActivity.this);
+        pref = new Preferences(ProfileActivity.this);
 
         startTermSpinner = (Spinner) findViewById(R.id.start_term_spinner);
 
@@ -220,7 +218,7 @@ public class profileActivity extends AppCompatActivity implements View.OnClickLi
 
         Toast.makeText(this, "INFORMATION SAVED",Toast.LENGTH_LONG).show();
 
-        Intent intent = new Intent(profileActivity.this, NavigationActivity.class);
+        Intent intent = new Intent(ProfileActivity.this, NavigationActivity.class);
         startActivity(intent);
         finish();
 
@@ -230,15 +228,16 @@ public class profileActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View view){
 
         if (view == buttonLogout) {
-           firebaseAuth.signOut();
-           finish();
-           startActivity(new Intent(this,loginActivity.class));
+            firebaseAuth.signOut();
+            startActivity(new Intent(this,LoginActivity.class));
+
+            finish();
             ///login activity
         }
 
         if(view == buttonSave){
             saveUserInformation();
-           // startActivity(new Intent(this, MatchActivity.class));
+            // startActivity(new Intent(this, MatchActivity.class));
         }
     }
 
@@ -285,14 +284,15 @@ public class profileActivity extends AppCompatActivity implements View.OnClickLi
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             progressDialog.dismiss();
-                            Toast.makeText(profileActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
+                            pref.setPortraitId(portrait_id);
+                            Toast.makeText(ProfileActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             progressDialog.dismiss();
-                            Toast.makeText(profileActivity.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ProfileActivity.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {

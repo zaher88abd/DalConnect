@@ -24,4 +24,6 @@
     </string-array>
 
     <string name="start_term_spinner_prompt">Select your Start Term</string>
+    <string name="welcome_message">Chat and Network with people from the same country with you going to Dal this term. \n\nAlso take advantages of our help tools like the reminder, chat bots etc.</string>
+    <string name="title_activity_reset_password">Reset Password</string>
 </resources>

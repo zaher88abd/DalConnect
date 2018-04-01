@@ -4,16 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ca.connect.dal.dalconnect.profileActivity">
+    tools:context="ca.connect.dal.dalconnect.ProfileActivity">
 
 
 
 
-<android.support.v7.widget.RecyclerView
+    <android.support.v7.widget.RecyclerView
 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-       android:id="@+id/recyclerView"
+        android:id="@+id/recyclerView"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp" />
 
