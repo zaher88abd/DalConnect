@@ -1,5 +1,5 @@
 # DAL CONNECT
-Dal connect is an application that helps international students integrate into the Dalhousie environment as seamlessly and fast as possible. It is designed to connect new international students together and also provide students with valuable information,Dal connect is an essential application because it helps solve some of the challenges international students face ranging from questions about getting directions to budget planning and questions about classes, courses and general lifestyle in Dalhousie. Features implemented on this include, buildings location and direction, new students to-do list, student chat and budget calculation.
+Dal connect is an application that helps international students integrate into the Dalhousie environment as seamlessly and fast as possible. It is designed to connect new international students together and also provide students with valuable information,Dal connect is an essential application because it helps solve some of the challenges international students face ranging from questions about getting directions to budget planning and questions about classes, courses and general lifestyle in Dalhousie. Features implemented on this include, **buildings location** and **direction**, **new students to-do list**, **student chat** and **budget calculation**.
 
 
 ## Libraries
@@ -33,6 +33,8 @@ public static int fibonacci(int fibIndex) {
 
 ## Feature Section
 List all the main features of your application with a brief description of each feature.
+- **Building's index**
+The Dalhousie building's index helps to direct students from their present location to building locations they are unfamiliar with.
 
 ## Final Project Status
 Write a description of the final status of the project. Did you achieve all your goals? What would be the next step for this project (if it were to continue)?
