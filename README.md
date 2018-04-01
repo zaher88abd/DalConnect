@@ -33,7 +33,7 @@ public static int fibonacci(int fibIndex) {
 
 ## Feature Section
 List all the main features of your application with a brief description of each feature.
-- **Building's index**
+- **Building's index**:
 The Dalhousie building's index helps to direct students from their present location to building locations they are unfamiliar with.
 
 ## Final Project Status
