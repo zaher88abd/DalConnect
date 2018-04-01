@@ -74,7 +74,7 @@ public class UserListFlagment extends Fragment
 
                             String room_id = AuthUtils.getInstance().generateRoomId(currentUser.getUid(), secondUser.getUID());
                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                            fragmentTransaction.replace(R.id.fragment_container, ChatFragment.newInstance(secondUser.getUID(), secondUser.getUsername(), secondUser.getUserImage(), room_id));
+                            fragmentTransaction.replace(R.id.fragment_container, ChatFragment.newInstance(secondUser.getUID(), secondUser.getUsername(), secondUser.getUserImage(), room_id), "ChatFragment");
                             fragmentTransaction.commit();
 
                         }
@@ -92,6 +92,7 @@ public class UserListFlagment extends Fragment
     };
 
     public UserListFlagment(){
+
 
     }
 

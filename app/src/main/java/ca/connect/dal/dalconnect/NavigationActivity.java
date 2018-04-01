@@ -7,6 +7,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
@@ -66,7 +68,7 @@ public class NavigationActivity extends AppCompatActivity
         UserListFlagment fragment = new UserListFlagment();
         android.support.v4.app.FragmentTransaction fragmentTransaction =
                 getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        fragmentTransaction.replace(R.id.fragment_container, fragment, "UserListFlagment");
         fragmentTransaction.commit();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -104,10 +106,30 @@ public class NavigationActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
+        }
+        else{
+
+            //add by gaoyounan, chatfragment back to friendlist
+            FragmentManager fragManager = this.getSupportFragmentManager();
+            int count = this.getSupportFragmentManager().getBackStackEntryCount();
+            Fragment frag = fragManager.getFragments().get(count>0?count-1:count);
+
+            if(frag.getTag().equals("ChatFragment"))
+            {
+                UserListFlagment fragment = new UserListFlagment();
+                android.support.v4.app.FragmentTransaction fragmentTransaction =
+                        getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, fragment, "UserListFlagment");
+                fragmentTransaction.commit();
+            }
+            else
+            {
+                super.onBackPressed();
+            }
+
         }
     }
 
@@ -144,7 +166,7 @@ public class NavigationActivity extends AppCompatActivity
             UserListFlagment fragment = new UserListFlagment();
             android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, fragment);
+            fragmentTransaction.replace(R.id.fragment_container, fragment, "UserListFlagment");
             fragmentTransaction.commit();
 
 
