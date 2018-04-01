@@ -26,6 +26,8 @@
         android:id="@+id/listChat"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:stackFromBottom="true"
+        android:transcriptMode="alwaysScroll"
         android:layout_above="@id/line">
 
     </ListView>

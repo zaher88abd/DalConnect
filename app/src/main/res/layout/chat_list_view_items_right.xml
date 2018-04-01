@@ -28,9 +28,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp"
         android:layout_toLeftOf="@id/id_image_myself"
         android:text="hahahahahahaha"
-        android:textSize="14sp"
+        android:textSize="15sp"
         android:textStyle="bold" />
 
 
