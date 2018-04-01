@@ -1,27 +1,19 @@
 {
   "project_info": {
-    "project_number": "470845255579",
-    "firebase_url": "https://todo-list-app-2493d.firebaseio.com",
-    "project_id": "todo-list-app-2493d",
-    "storage_bucket": "todo-list-app-2493d.appspot.com"
+    "project_number": "668110384855",
+    "firebase_url": "https://dalconnect-c74c7.firebaseio.com",
+    "project_id": "dalconnect-c74c7",
+    "storage_bucket": "dalconnect-c74c7.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:470845255579:android:efc8afa676988b5e",
+        "mobilesdk_app_id": "1:668110384855:android:9a00629575c21407",
         "android_client_info": {
-          "package_name": "com.example.jesuseyifasuyi.todolist"
+          "package_name": "ca.connect.dal.dalconnect"
         }
       },
       "oauth_client": [
-        {
-          "client_id": "668110384855-m2b6c6n6nph8983v0b5vkube8plmi75f.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "ca.connect.dal.dalconnect",
-            "certificate_hash": "7356fb286e36f1e59f344d17d1ac8743697d28ec"
-          }
-        },
         {
           "client_id": "668110384855-ukc5mfg2lovs1ir6tu4t6i9jq3mb6vn1.apps.googleusercontent.com",
           "client_type": 1,
@@ -30,23 +22,6 @@
             "certificate_hash": "8c3fc80ffdbc02de53c150a26433cfdaa3c558dc"
           }
         },
-        "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:470845255579:android:9a00629575c21407",
-        "android_client_info": {
-          "package_name": "ca.connect.dal.dalconnect"
-        }
-      },
-      "oauth_client": [
         {
           "client_id": "668110384855-31cdcas18l6qrev4fiqmcu8coa2fjcvk.apps.googleusercontent.com",
           "client_type": 3
@@ -58,7 +33,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCyYcmmzXSRIKMbXhiRuH43_ewYcm2NBEE"
+          "current_key": "AIzaSyAt2th3oxTOeXFM-_MePq8HhutpkikwS8M"
         }
       ],
       "services": {
