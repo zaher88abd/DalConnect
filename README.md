@@ -39,8 +39,8 @@ The Dalhousie building's index helps to direct students from their present locat
 This feature enables students to communicate effectively with one another.
 - **To-do list**:<br>
 This is a list of important tasks that new international students need to do at different time intervals I.e. register for courses,renew study visa or buy a new sim card. 
-
-
+- **Chatbot**:<br>
+The Chat bot will help Students handle simple queries e.g. provide student with information about how to get a sim card as well as other informations.
 
 ## Final Project Status
 Write a description of the final status of the project. Did you achieve all your goals? What would be the next step for this project (if it were to continue)?
