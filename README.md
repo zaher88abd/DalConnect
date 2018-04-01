@@ -33,8 +33,14 @@ public static int fibonacci(int fibIndex) {
 
 ## Feature Section
 List all the main features of your application with a brief description of each feature.
-- **Building's index**:
+- **Building's index**:<br>
 The Dalhousie building's index helps to direct students from their present location to building locations they are unfamiliar with.
+- **User Chat**:<br>
+This feature enables students to communicate effectively with one another.
+- **To-do list**:<br>
+This is a list of important tasks that new international students need to do at different time intervals I.e. register for courses,renew study visa or buy a new sim card. 
+
+
 
 ## Final Project Status
 Write a description of the final status of the project. Did you achieve all your goals? What would be the next step for this project (if it were to continue)?
@@ -42,7 +48,7 @@ Write a description of the final status of the project. Did you achieve all your
 #### Minimum Functionality
 - Building's index (Completed)
 - User registration (Completed)
-- To-do list (Completed
+- To-do list (Completed)
 
 #### Expected Functionality
 - User Chat(Texting) (Completed)
