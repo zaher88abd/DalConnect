@@ -18,7 +18,7 @@
         android:layout_marginTop="20dp"
         android:layout_toRightOf="@id/id_image"
         android:gravity="center_vertical"
-        android:text=""
+        android:text="UserName!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!****************"
         android:textSize="14sp"
         android:textStyle="bold" />
 
@@ -29,7 +29,20 @@
         android:layout_below="@id/id_username"
         android:layout_marginTop="8dp"
         android:layout_toRightOf="@id/id_image"
-        android:text=""
+        android:text="Cuba"
         android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/id_message_numbers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="#ff0000"
+        android:textColor="#ffffff"
+        android:text=""
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp" />
 
 </RelativeLayout>
