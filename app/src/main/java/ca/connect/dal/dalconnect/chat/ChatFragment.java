@@ -56,7 +56,10 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
     public void onDestroyView() {
 
         super.onDestroyView();
-        FirebaseDatabase.getInstance().getReference().child("Dal_Chat/message/" + roomId).removeEventListener(childEventListener);
+        if(childEventListener!=null)
+        {
+            FirebaseDatabase.getInstance().getReference().child("Dal_Chat/message/" + roomId).removeEventListener(childEventListener);
+        }
     }
 
     @Override
