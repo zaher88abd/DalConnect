@@ -41,7 +41,8 @@ public class UserListFlagment extends Fragment
     private UserListAdapter userListAdapter;
     private List<UserInformation> user_list = new ArrayList<UserInformation>();
     private List<UserInformation> user_list_all = new ArrayList<UserInformation>();
-    private String country = "";
+    private String hostCountry = "";
+    private String hostStartTerm = "";
     private List<String> room_id_list = new ArrayList<String>();
 
     private ValueEventListener valueEventListener;
@@ -154,7 +155,8 @@ public class UserListFlagment extends Fragment
 
                     if(user.getUID().equals(authUtilsInstance.getCurrentUId()))
                     {
-                        country = user.getCountry();
+                        hostCountry = user.getCountry().toLowerCase();
+                        hostStartTerm = user.getStartTerm().toLowerCase();
                     }
                     //room_id_list.add(authUtilsInstance.generateRoomId(user.getUID(), authUtilsInstance.getCurrentUId()));
                 }
@@ -163,7 +165,14 @@ public class UserListFlagment extends Fragment
                 {
                     for(UserInformation userTemp : user_list_all)
                     {
-                        if(userTemp.getCountry().equals(country))
+                        /**
+                         * 1. The same country
+                         * 2. Not the current User
+                         * 3. the same start term
+                         */
+                        if(userTemp.getCountry().toLowerCase().equals(hostCountry)
+                                && !userTemp.getUID().equals(authUtilsInstance.getCurrentUId())
+                                && userTemp.getStartTerm().toLowerCase().equals(hostStartTerm))
                         {
                             user_list.add(userTemp);
                             room_id_list.add(authUtilsInstance.generateRoomId(userTemp.getUID(), authUtilsInstance.getCurrentUId()));
