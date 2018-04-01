@@ -1,4 +1,4 @@
-# Project Title
+# DAL CONNECT
 One paragraph to describe your project. Your description should include the project concept and key features implemented.
 
 ## Libraries
@@ -45,7 +45,6 @@ Write a description of the final status of the project. Did you achieve all your
 - User Chat(Texting) (Completed)
 - Matching (Find friends by country) (Completed)
 - New Messages Notification (Completed)
--
 
 #### Bonus Functionality
 - Chatbot(Completed)
