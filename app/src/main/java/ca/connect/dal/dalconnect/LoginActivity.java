@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -41,7 +42,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        if(firebaseAuth.getCurrentUser() != null) {
+        if (firebaseAuth.getCurrentUser() != null) {
             finish();
             startActivity(new Intent(getApplicationContext(), NavigationActivity.class)); //profile activity here
         }
@@ -52,7 +53,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
-    private void setUpViews(){
+    private void setUpViews() {
         buttonSignIn = (Button) findViewById(R.id.buttonSignIn);
         buttonForgotPassword = (Button) findViewById(R.id.btn_forgot_password);
         editTextEmail = (EditText) findViewById(R.id.editTextEmail);
@@ -62,7 +63,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         progressDialog = new ProgressDialog(LoginActivity.this);
     }
 
-    private void setUpListeners(){
+    private void setUpListeners() {
         buttonSignIn.setOnClickListener(this);
         textViewSignup.setOnClickListener(this);
 
@@ -75,7 +76,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         });
     }
 
-    private void setUpValidationCheckers(){
+    private void setUpValidationCheckers() {
         editTextEmail.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -98,59 +99,60 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
-    private void userLogin(){
-        String email = editTextEmail.getText().toString().trim();
-        String password = editTextPassword.getText().toString().trim();
+    private void userLogin() {
+        try {
+            String email = editTextEmail.getText().toString().trim();
+            String password = editTextPassword.getText().toString().trim();
 
-        if(TextUtils.isEmpty (email)){
-            Toast.makeText(this, "Please enter email",Toast.LENGTH_SHORT).show();
-            //stop excuting fuctions
-        }
-        if(TextUtils.isEmpty(password)){
-            Toast.makeText(this, "Please enter password",Toast.LENGTH_SHORT).show();
-            //stop executing fuctions
-            return;
-        }
-        progressDialog.setMessage("Registering User......");
-        progressDialog.show();
+            if (TextUtils.isEmpty(email)) {
+                Toast.makeText(this, "Please enter email", Toast.LENGTH_SHORT).show();
+                //stop excuting fuctions
+            }
+            if (TextUtils.isEmpty(password)) {
+                Toast.makeText(this, "Please enter password", Toast.LENGTH_SHORT).show();
+                //stop executing fuctions
+                return;
+            }
+            progressDialog.setMessage("Registering User......");
+            progressDialog.show();
 
-        firebaseAuth.signInWithEmailAndPassword(email,password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        progressDialog.dismiss();
-                        if (task.isSuccessful()) {
+            firebaseAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            progressDialog.dismiss();
+                            if (task.isSuccessful()) {
 
-                            //uder registred succcefulluy\
-                            finish();
-                            startActivity(new Intent(getApplicationContext(), NavigationActivity.class));
+                                //uder registred succcefulluy\
+                                finish();
+                                startActivity(new Intent(getApplicationContext(), NavigationActivity.class));
+                            } else {
+                                showErrorDialog();
+                            }
+
                         }
 
-                        else{
-                            showErrorDialog();
-                        }
-
-                    }
-
-                });
-
+                    });
+        } catch (Exception e) {
+            Log.d("Error", e.getMessage());
+        }
     }
 
     @Override
-    public void onClick(View view){
-        if(view == buttonSignIn){
+    public void onClick(View view) {
+        if (view == buttonSignIn) {
             userLogin();
         }
 
         if (view == textViewSignup) {
             finish();
-            startActivity(new Intent(this,RegistrationActivity.class));
+            startActivity(new Intent(this, RegistrationActivity.class));
 
             ///login activity
         }
     }
 
-    public void checkCorrectEmail (String emailEntered) {
+    public void checkCorrectEmail(String emailEntered) {
 
         boolean isValidated;
 
@@ -171,7 +173,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         return matcher.matches();
     }
 
-    private void showErrorDialog(){
+    private void showErrorDialog() {
         AlertDialog.Builder builder;
         builder = new AlertDialog.Builder(LoginActivity.this, android.R.style.Theme_Material_Dialog_Alert);
         builder.setTitle("User Not Found")
