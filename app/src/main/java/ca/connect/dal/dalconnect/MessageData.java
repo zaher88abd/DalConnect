@@ -8,9 +8,11 @@ package ca.connect.dal.dalconnect;
 public class MessageData {
     public boolean isUser;
     String messageBody;
+    String extraLink;
     //Constructor
     public MessageData (boolean isUSER, String chatMessage, String Sender, String Receiver ) {
         messageBody = chatMessage;
         isUser = isUSER;
+        extraLink="";
     }
 }
