@@ -31,6 +31,121 @@ public static int fibonacci(int fibIndex) {
 // Source: Wikipedia Java [1]
 ```
 
+**Problem 2: Fetching data from Firebase is in an asynchronous way, which caused a lot of problems, E.g, in same case, only if once all of the data is ready, can we continue to operate the following codes.<br/>**
+
+To wait for all of the data is readly, I was using Handler. When data is ready,  handler will send a message to notify data is ready, and the App could continue the following codes
+
+```
+//Sending the message
+mHandler.obtainMessage(0).sendToTarget();
+```
+
+```
+//Handle the message
+private Handler mHandler = new Handler(){
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 0:
+                    userListAdapter = new UserListAdapter(user_list);
+                    listView.setAdapter(userListAdapter);
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                            UserInformation secondUser = user_list.get(i);
+                            FirebaseUser currentUser = AuthUtils.getInstance().getCurrentUser();
+
+                            String room_id = AuthUtils.getInstance().generateRoomId(currentUser.getUid(), secondUser.getUID());
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.replace(R.id.fragment_container, ChatFragment.newInstance(secondUser.getUID(), secondUser.getUsername(), secondUser.getUserImage(), room_id), "ChatFragment");
+                            fragmentTransaction.commit();
+
+                        }
+                    });
+
+                    onReceiveMessages();
+
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+    };
+```
+
+**Problem 3: Regarding the Dalconnect needs to load a number of pictures from the backend, to improve effciency I am using the buffer to store the pictures in memory in case it will be used again in the other activity.<br/>**
+
+```
+//Singleton Mode to make sure the buffer only store in one piece.
+public class PortraitUtils {
+
+    private static PortraitUtils instance;
+    private static LruCache<String, BitmapDrawable> mImageCache;
+
+    private PortraitUtils() {}
+
+    public static PortraitUtils getInstance()
+    {
+        if(instance==null)
+        {
+            instance = new PortraitUtils();
+
+            int maxCache = (int) Runtime.getRuntime().maxMemory();
+            int cacheSize = maxCache / 8;
+            mImageCache = new LruCache<String, BitmapDrawable>(cacheSize) {
+                @Override
+                protected int sizeOf(String key, BitmapDrawable value) {
+                    return value.getBitmap().getByteCount();
+                }
+            };
+        }
+
+        return instance;
+    }
+}
+
+//When the file is not found in the buffer, load the file remotely
+
+ StorageReference storageRef = storage.getReference().child("Portraits/"+ portraitName);
+
+        try
+        {
+            final File  localFile = File.createTempFile(portraitName, "jpg");
+
+            storageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    // Local temp file has been created
+
+                    if (iv != null ) {
+                        Bitmap bitmap = getBitmap(localFile);
+                        iv.setImageBitmap(bitmap);
+                        PortraitUtils.getInstance().setPortraitbyName(portraitName, new BitmapDrawable(bitmap));
+                    }
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle any errors
+
+                    System.out.println("Handle any errors");
+                }
+            });
+
+
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+```
+
+
 ## Feature Section
 List all the main features of your application with a brief description of each feature.
 - **Building's index**:<br>
