@@ -1,34 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
     android:id="@+id/message_layout_parent"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
     <LinearLayout
         android:id="@+id/message_layout"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
         <TextView
+            android:id="@+id/txtMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Medium Text"
-            android:id="@+id/txtMessage"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
+            android:layout_marginTop="10dp"
             android:background="@drawable/incoming_message"
-            android:textSize="20dp"
-            android:paddingTop="5dp"
             android:paddingBottom="5dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            android:layout_marginTop="10dp"
-            android:textColor="@android:color/white" />
+            android:paddingTop="5dp"
+            android:text="Medium Text"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
+
         <Button
             android:id="@+id/btn_function"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:minHeight="15dp"
+            android:minWidth="15dp"
+            android:visibility="gone" />
     </LinearLayout>
+
 </LinearLayout>

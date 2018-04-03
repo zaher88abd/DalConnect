@@ -77,17 +77,30 @@ public class MessageAdapter extends BaseAdapter {
             linearLayout.setGravity(Gravity.END);
             txtMsg.setBackgroundResource(R.drawable.outgoing_message);
             linearLayoutParent.setGravity(Gravity.END);
-            btnFunction.setVisibility(View.GONE);
         }
         // checks if action is from google and align the message to the left
         else {
             if (message.extraLink.contains("map")) {
+                btnFunction.setVisibility(View.VISIBLE);
                 btnFunction.setText(mContext.getString(R.string.direction));
                 btnFunction.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(message.extraLink));
                         mContext.startActivity(Intent.createChooser(intent, "Select an application"));
+                    }
+                });
+                txtMsg.setVisibility(View.GONE);
+            }  if (message.extraLink.contains("https://")) {
+                btnFunction.setVisibility(View.VISIBLE);
+                txtMsg.setVisibility(View.GONE);
+                btnFunction.setText(mContext.getString(R.string.link));
+
+                btnFunction.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(message.extraLink));
+                        mContext.startActivity(browserIntent);
                     }
                 });
             }

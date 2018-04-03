@@ -32,6 +32,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="app_name">DalConnect</string>
     <string name="direction">Direction</string>
+    <string name="link">Link</string>
     <string-array name="buildings">
         <item>LSC,44.6357336,-63.5939558</item>
         <item>Kenneth c Rowe,44.637006,-63.5882477</item>

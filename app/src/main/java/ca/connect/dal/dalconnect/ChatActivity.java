@@ -118,7 +118,6 @@ public class ChatActivity extends AppCompatActivity implements LocationListener 
     }
 
     private void addMessage(String message, String extraLink, boolean isUser) {
-
         final MessageData chatMessage = new MessageData(isUser, "", "", "");
         chatMessage.messageBody = message;
         chatMessage.extraLink = extraLink;
@@ -185,10 +184,6 @@ public class ChatActivity extends AppCompatActivity implements LocationListener 
                     Log.i(LOG_TAG, "context name: " + context.getName());
                     contextNames.add(context.getName());
                 }
-                if (!contextNames.isEmpty() &&
-                        contextNames.contains("going") && contextNames.contains("car")) {
-                    findFastRout();
-                }
 
 
                 Log.i(LOG_TAG, "Resolved query: " + result.getResolvedQuery());
@@ -200,6 +195,16 @@ public class ChatActivity extends AppCompatActivity implements LocationListener 
 
                 if (!TextUtils.isEmpty(speech))
                     addMessage(speech, false);
+
+                if (!contextNames.isEmpty() &&
+                        contextNames.contains("going") && contextNames.contains("car")) {
+                    findFastRout();
+                }
+
+                if (!contextNames.isEmpty() &&
+                        contextNames.contains("library") && contextNames.contains("study_room")) {
+                    openLink();
+                }
 
                 final Metadata metadata = result.getMetadata();
                 System.out.println(metadata + "metadata Found+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
@@ -217,6 +222,11 @@ public class ChatActivity extends AppCompatActivity implements LocationListener 
             }
 
         });
+    }
+
+    private void openLink() {
+        String uri = "https://roombooking.library.dal.ca/schedule.php";
+        addMessage("", uri, false);
     }
 
     private void findFastRout() {
@@ -237,7 +247,7 @@ public class ChatActivity extends AppCompatActivity implements LocationListener 
         String uri = "http://maps.google.com/maps?f=d&hl=en&saddr=" + latitude1 + "," + longitude1 + "&daddr=" + latitude2 + "," + longitude2;
 //        Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
 //        startActivity(Intent.createChooser(intent, "Select an application"));
-        addMessage("Go to this location",uri, false);
+        addMessage("'", uri, false);
     }
 
     private void onError(final AIError error) {
