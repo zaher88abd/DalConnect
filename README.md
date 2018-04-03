@@ -167,7 +167,7 @@ Write a description of the final status of the project. Did you achieve all your
 
 #### Expected Functionality
 - User Chat(Texting) (Completed)
-- Matching (Find friends by country) (Completed)
+- Matching (Find friends by the same country and start term) (Completed)
 - New Messages Notification (Completed)
 
 #### Bonus Functionality
