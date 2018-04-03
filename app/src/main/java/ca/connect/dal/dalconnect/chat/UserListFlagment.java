@@ -33,6 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ca.connect.dal.dalconnect.LoginActivity;
 import ca.connect.dal.dalconnect.NavigationActivity;
 import ca.connect.dal.dalconnect.R;
 import ca.connect.dal.dalconnect.UserInformation;
@@ -194,6 +195,10 @@ public class UserListFlagment extends Fragment
                 //Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
                 // ...
                 System.out.println("Failure");
+
+                authUtilsInstance.signout();
+                startActivity(new Intent(getActivity(), LoginActivity.class));
+                getActivity().finish();
             }
         });
     }

@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -27,6 +28,8 @@ import ca.connect.dal.dalconnect.R;
 import ca.connect.dal.dalconnect.UserInformation;
 import ca.connect.dal.dalconnect.chat.model.Message;
 import ca.connect.dal.dalconnect.util.AuthUtils;
+
+import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public class ChatFragment extends Fragment implements View.OnClickListener {
 
@@ -59,6 +62,12 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
         if(childEventListener!=null)
         {
             FirebaseDatabase.getInstance().getReference().child("Dal_Chat/message/" + roomId).removeEventListener(childEventListener);
+        }
+
+        if(editWriteMessage != null)
+        {
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(editWriteMessage.getWindowToken(), 0);
         }
     }
 

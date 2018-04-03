@@ -27,6 +27,11 @@ public class AuthUtils {
 
     private AuthUtils() {}
 
+    public void signout()
+    {
+        mAuth.signOut();
+    }
+
     public String generateRoomId(String a, String b)
     {
         String id = null;
