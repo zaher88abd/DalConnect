@@ -1,11 +1,16 @@
 package ca.connect.dal.dalconnect;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Context;
 import android.view.Gravity;
@@ -29,9 +34,10 @@ public class MessageAdapter extends BaseAdapter {
 
     }
 
-    public void add(MessageData object){
+    public void add(MessageData object) {
         chatMessageList.add(object);
     }
+
     @Override
     public int getCount() {
 
@@ -50,27 +56,54 @@ public class MessageAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup parent) {
-        MessageData message = (MessageData) chatMessageList.get(i);
+        final MessageData message = (MessageData) chatMessageList.get(i);
         View vi = view;
 
-        if(view == null)
+        if (view == null)
             vi = inflater.inflate(R.layout.activity_layout, null);
 
         TextView txtMsg = (TextView) vi.findViewById(R.id.txtMessage);
         txtMsg.setText(message.messageBody);
+
+        Button btnFunction = vi.findViewById(R.id.btn_function);
 
         LinearLayout linearLayout = (LinearLayout) vi.findViewById(R.id.message_layout);
         LinearLayout linearLayoutParent = (LinearLayout) vi.findViewById(R.id.message_layout_parent);
 
         // checks if action is from User and align the message to the right
         if (message.isUser) {
-            System.out.println("Yes This is a User++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"+message.isUser);
+            System.out.println("Yes This is a User++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+                    + message.isUser);
             linearLayout.setGravity(Gravity.END);
             txtMsg.setBackgroundResource(R.drawable.outgoing_message);
             linearLayoutParent.setGravity(Gravity.END);
         }
         // checks if action is from google and align the message to the left
         else {
+            if (message.extraLink.contains("map")) {
+                btnFunction.setVisibility(View.VISIBLE);
+                btnFunction.setText(mContext.getString(R.string.direction));
+                btnFunction.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(message.extraLink));
+                        mContext.startActivity(Intent.createChooser(intent, "Select an application"));
+                    }
+                });
+                txtMsg.setVisibility(View.GONE);
+            }  if (message.extraLink.contains("https://")) {
+                btnFunction.setVisibility(View.VISIBLE);
+                txtMsg.setVisibility(View.GONE);
+                btnFunction.setText(mContext.getString(R.string.link));
+
+                btnFunction.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(message.extraLink));
+                        mContext.startActivity(browserIntent);
+                    }
+                });
+            }
             linearLayout.setGravity(Gravity.START);
             txtMsg.setBackgroundResource(R.drawable.incoming_message);
             linearLayoutParent.setGravity(Gravity.START);
