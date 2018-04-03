@@ -117,6 +117,14 @@ public class ChatActivity extends AppCompatActivity implements LocationListener 
         messageAdapter.notifyDataSetChanged();
     }
 
+    private void addMessage(String message, String extraLink, boolean isUser) {
+        final MessageData chatMessage = new MessageData(isUser, "", "", "");
+        chatMessage.messageBody = message;
+        chatMessage.extraLink = extraLink;
+        messageAdapter.add(chatMessage);
+        messageAdapter.notifyDataSetChanged();
+    }
+
     private void sendRequest(String userText) {
 
         final String contextString = String.valueOf(userText);
@@ -176,10 +184,6 @@ public class ChatActivity extends AppCompatActivity implements LocationListener 
                     Log.i(LOG_TAG, "context name: " + context.getName());
                     contextNames.add(context.getName());
                 }
-                if (!contextNames.isEmpty() &&
-                        contextNames.contains("going") && contextNames.contains("car")) {
-                    findFastRout();
-                }
 
 
                 Log.i(LOG_TAG, "Resolved query: " + result.getResolvedQuery());
@@ -191,6 +195,16 @@ public class ChatActivity extends AppCompatActivity implements LocationListener 
 
                 if (!TextUtils.isEmpty(speech))
                     addMessage(speech, false);
+
+                if (!contextNames.isEmpty() &&
+                        contextNames.contains("going") && contextNames.contains("car")) {
+                    findFastRout();
+                }
+
+                if (!contextNames.isEmpty() &&
+                        contextNames.contains("library") && contextNames.contains("study_room")) {
+                    openLink();
+                }
 
                 final Metadata metadata = result.getMetadata();
                 System.out.println(metadata + "metadata Found+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
@@ -210,6 +224,11 @@ public class ChatActivity extends AppCompatActivity implements LocationListener 
         });
     }
 
+    private void openLink() {
+        String uri = "https://roombooking.library.dal.ca/schedule.php";
+        addMessage("", uri, false);
+    }
+
     private void findFastRout() {
         if (userLocation == null) {
             Toast.makeText(ChatActivity.this, "No location", Toast.LENGTH_SHORT).show();
@@ -218,7 +237,7 @@ public class ChatActivity extends AppCompatActivity implements LocationListener 
 //        <item>Kenneth c Rowe,44.637006,-63.5882477</item>
         String buildingInfo = "Kenneth c Rowe";
         //User location
-        Location location=getLastKnownLocation();
+        Location location = getLastKnownLocation();
         String latitude1 = String.valueOf(location.getLatitude());
         String longitude1 = String.valueOf(location.getLongitude());
 //        <item>Killam Memorial library (KML),44.6374177,-63.5921144</item>
@@ -228,7 +247,7 @@ public class ChatActivity extends AppCompatActivity implements LocationListener 
         String uri = "http://maps.google.com/maps?f=d&hl=en&saddr=" + latitude1 + "," + longitude1 + "&daddr=" + latitude2 + "," + longitude2;
 //        Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
 //        startActivity(Intent.createChooser(intent, "Select an application"));
-        addMessage(uri, false);
+        addMessage("'", uri, false);
     }
 
     private void onError(final AIError error) {
@@ -271,8 +290,9 @@ public class ChatActivity extends AppCompatActivity implements LocationListener 
     public void onProviderDisabled(String s) {
 
     }
+
     private Location getLastKnownLocation() {
-        locationManager = (LocationManager)getApplicationContext().getSystemService(LOCATION_SERVICE);
+        locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
         List<String> providers = locationManager.getProviders(true);
         Location bestLocation = null;
         for (String provider : providers) {
