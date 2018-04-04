@@ -241,7 +241,10 @@ public class UserListFlagment extends Fragment
             {
                 Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                 Ringtone rt = RingtoneManager.getRingtone(getContext(), uri);
-                rt.play();
+                if(rt != null)
+                {
+                    rt.play();
+                }
             }
 
         }
