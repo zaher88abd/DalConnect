@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
@@ -23,18 +22,13 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.gson.JsonElement;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import ai.api.AIConfiguration;
 import ai.api.AIDataService;
 import ai.api.AIServiceException;
-import ai.api.RequestExtras;
-import ai.api.model.AIContext;
 import ai.api.model.AIError;
 import ai.api.model.AIOutputContext;
 import ai.api.model.AIRequest;
@@ -74,7 +68,7 @@ public class ChatActivity extends AppCompatActivity implements LocationListener 
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
 
 
-        //Currently supported language; the set the language to english
+        //Currently supported language is set to english language
         final AIConfiguration.SupportedLanguages lang =
                 AIConfiguration.SupportedLanguages.fromLanguageTag("en");
 
@@ -109,6 +103,11 @@ public class ChatActivity extends AppCompatActivity implements LocationListener 
 
     }
 
+    /**
+     * This function retrieves the corresponding message(sent/received) from the user/server
+     * @param message
+     * @param isUser
+     */
     private void addMessage(String message, boolean isUser) {
 
         final MessageData chatMessage = new MessageData(isUser, "", "", "");
@@ -125,6 +124,10 @@ public class ChatActivity extends AppCompatActivity implements LocationListener 
         messageAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * This function
+     * @param userText
+     */
     private void sendRequest(String userText) {
 
         final String contextString = String.valueOf(userText);
@@ -162,17 +165,17 @@ public class ChatActivity extends AppCompatActivity implements LocationListener 
         task.execute(contextString);
     }
 
+    /**
+     * This function returns the AI query response
+     * @param response
+     */
     private void onResult(final AIResponse response) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-
-
                 Log.d(LOG_TAG, "onResult");
-
                 Log.i(LOG_TAG, "Received success response");
-
-                // print log messages...
+                // logging response status on the console
                 final Status status = response.getStatus();
                 Log.i(LOG_TAG, "Status code: " + status.getCode());
                 Log.i(LOG_TAG, "Status type: " + status.getErrorType());
@@ -184,10 +187,7 @@ public class ChatActivity extends AppCompatActivity implements LocationListener 
                     Log.i(LOG_TAG, "context name: " + context.getName());
                     contextNames.add(context.getName());
                 }
-
-
                 Log.i(LOG_TAG, "Resolved query: " + result.getResolvedQuery());
-
                 Log.i(LOG_TAG, "Action: " + result.getAction());
 
                 final String speech = result.getFulfillment().getSpeech();
@@ -207,16 +207,10 @@ public class ChatActivity extends AppCompatActivity implements LocationListener 
                 }
 
                 final Metadata metadata = result.getMetadata();
-                System.out.println(metadata + "metadata Found+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-
                 if (metadata != null) {
-                    Log.i(LOG_TAG, "Intent id: " + metadata.getIntentId());
-                    Log.i(LOG_TAG, "Intent name: " + metadata.getIntentName());
-                    System.out.println("Intent id: " + metadata.getIntentId());
-                    System.out.println("Intent name: " + metadata.getIntentName());
-//                    Log.d(LOG_TAG,response.)
+                    Log.i(LOG_TAG, "quesry response not empty"+metadata);
                 } else {
-                    System.out.println("metadata not Found+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+                    System.out.println(Log.d(LOG_TAG,"Query returned empty response"+metadata.toString()));
 
                 }
             }
@@ -308,4 +302,7 @@ public class ChatActivity extends AppCompatActivity implements LocationListener 
         return bestLocation;
     }
 }
-//https://stackoverflow.com/questions/20438627/getlastknownlocation-returns-null
+/**
+ * https://stackoverflow.com/questions/20438627/getlastknownlocation-returns-null
+ */
+
