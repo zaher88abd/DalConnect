@@ -9,10 +9,15 @@ public class MessageData {
     public boolean isUser;
     String messageBody;
     String extraLink;
-    //Constructor
+
+    //Parameterize constructor
     public MessageData (boolean isUSER, String chatMessage, String Sender, String Receiver ) {
         messageBody = chatMessage;
         isUser = isUSER;
         extraLink="";
+    }
+    //Empty constructor
+    public  MessageData(){
+
     }
 }
