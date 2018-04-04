@@ -18,7 +18,7 @@ import android.view.LayoutInflater;
 
 /**
  * Created by hugokwe on 3/4/2018.
- * This binds the data to the listview. It calls the ChatData  object, then boolean function
+ * This binds the data to the listview. It calls the MessageData  object, then boolean function
  * checks if the action called is a request or response using the boolean.
  */
 
@@ -70,15 +70,13 @@ public class MessageAdapter extends BaseAdapter {
         LinearLayout linearLayout = (LinearLayout) vi.findViewById(R.id.message_layout);
         LinearLayout linearLayoutParent = (LinearLayout) vi.findViewById(R.id.message_layout_parent);
 
-        // checks if action is from User and align the message to the right
+        // checks if action is from User then align the message to the right
         if (message.isUser) {
-            System.out.println("Yes This is a User++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-                    + message.isUser);
             linearLayout.setGravity(Gravity.END);
             txtMsg.setBackgroundResource(R.drawable.outgoing_message);
             linearLayoutParent.setGravity(Gravity.END);
         }
-        // checks if action is from google and align the message to the left
+        // checks if action is from the server and align the message to the left
         else {
             if (message.extraLink.contains("map")) {
                 btnFunction.setVisibility(View.VISIBLE);
