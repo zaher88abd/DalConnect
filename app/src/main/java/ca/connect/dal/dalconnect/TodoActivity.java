@@ -1,7 +1,10 @@
 package ca.connect.dal.dalconnect;
 
 import android.app.AlertDialog;
-import android.support.annotation.NonNull;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.provider.CalendarContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,164 +14,175 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QuerySnapshot;
+import ca.connect.dal.dalconnect.Adapter.ListItemAdapter;
+import ca.connect.dal.dalconnect.Model.Todo;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.TimeZone;
 
-import ca.connect.dal.dalconnect.Adapter.ListItemAdapter;
-import ca.connect.dal.dalconnect.Model.ToDo;
+import ca.connect.dal.dalconnect.R;
 import dmax.dialog.SpotsDialog;
 
 public class TodoActivity extends AppCompatActivity {
 
-    List<ToDo> todoList = new ArrayList<>();
+    public MaterialEditText titleEditText, detailEditText;
+    private FloatingActionButton btnAdd;
+    private RecyclerView myList;
+    LinearLayoutManager llm;
+    private ListItemAdapter myAdapter;
 
-    FirebaseFirestore db;
-
-    RecyclerView listItem;
-    RecyclerView.LayoutManager layoutManager;
-
-    public MaterialEditText title, detail;
-
-    ListItemAdapter adapter;
+    private AlertDialog alertDialog;
+    private List<Todo> todoList = new ArrayList<>();
     public boolean isUpdate = false;
     public String idUpdate = "";
+    public int curPosition = -1;
 
-    FloatingActionButton btn;
+    private static final String SHARED_PREFS_FILE = "myPref";
 
-    AlertDialog dialog;
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_todo);
 
-        db = FirebaseFirestore.getInstance();
-        dialog = new SpotsDialog(this);
-        title = (MaterialEditText) findViewById(R.id.title);
-        detail = (MaterialEditText) findViewById(R.id.detail);
-        btn = (FloatingActionButton) findViewById(R.id.add);
+        titleEditText = (MaterialEditText) findViewById(R.id.title);
+        detailEditText = (MaterialEditText) findViewById(R.id.detail);
+        btnAdd = (FloatingActionButton) findViewById(R.id.add);
 
-        btn.setOnClickListener(new View.OnClickListener() {
+        myList = (RecyclerView) findViewById(R.id.todolist);
+        myList.setHasFixedSize(true);
+        llm = new LinearLayoutManager(this);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        myList.setLayoutManager(llm);
+
+        myAdapter = new ListItemAdapter(TodoActivity.this, todoList);
+        myList.setAdapter(myAdapter);
+
+        alertDialog = new SpotsDialog(this);
+
+        btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!isUpdate) {
-                    setData(title.getText().toString(), detail.getText().toString());
-                } else {
-                    updateData(title.getText().toString(), detail.getText().toString());
-                    isUpdate = !isUpdate;
+                if (titleEditText.getText().toString().equals("") || detailEditText.getText().toString().equals("")) {
+                    Toast.makeText(TodoActivity.this, "Please fill the input fields", Toast.LENGTH_SHORT).show();
+                    return;
                 }
+
+                if(!isUpdate){
+                    saveData(titleEditText.getText().toString(), detailEditText.getText().toString());
+                }
+                else
+                {
+                    updateData(curPosition, titleEditText.getText().toString(), detailEditText.getText().toString());
+                    isUpdate = false;
+                }
+                titleEditText.setText("");
+                detailEditText.setText("");
             }
         });
 
-        listItem = (RecyclerView) findViewById(R.id.todolist);
-        listItem.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(this);
-        listItem.setLayoutManager(layoutManager);
-        listItem.setAdapter(adapter);
-
         loadData();
-
     }
-
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        if (item.getTitle().equals("Delete")) {
-            deleteItem(item.getOrder());
-        } else if (item.getTitle().equals("Set Reminder")) {
-
+        int i = item.getItemId();
+        if(item.getTitle().equals("Delete")){
+            deleteData(item.getOrder());
+        }else if(item.getTitle().equals("Set Reminder")){
+            setReminder(item.getOrder());
         }
         return super.onContextItemSelected(item);
-
     }
 
-    private void deleteItem(int index) {
-        db.collection("ToDoList")
-                .document(todoList.get(index).getId())
-                .delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        loadData();
-                    }
-                });
+    public void saveData(String title, String detail) {
+        Todo todo = new Todo(title, detail);
+        todoList.add(todo);
+
+        myAdapter = new ListItemAdapter(TodoActivity.this, todoList);
+        myList.setAdapter(myAdapter);
+
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_FILE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        Gson gson = new Gson();
+
+        String json = gson.toJson(todoList);
+
+        editor.putString("TASKS", json);
+        editor.commit();
     }
 
-    private void updateData(String title, String detail) {
-        db.collection("ToDoList").document(idUpdate)
-                .update("title", title, "detail", detail)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(TodoActivity.this, "Updated", Toast.LENGTH_SHORT).show();
-                    }
-                });
+    public void updateData(int index, String title, String detail) {
+        Todo todo = new Todo(title, detail);
+        todoList.set(index, todo);
 
-        db.collection("ToDoList").document(idUpdate)
-                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                    @Override
-                    public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
-                        loadData();
-                    }
-                });
+        myAdapter = new ListItemAdapter(TodoActivity.this, todoList);
+        myList.setAdapter(myAdapter);
 
-    }
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_FILE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
 
-    private void setData(String title, String detail) {
-        String id = UUID.randomUUID().toString();
-        Map<String, Object> todo = new HashMap<>();
-        todo.put("id", id);
-        todo.put("title", title);
-        todo.put("detail", detail);
+        Gson gson = new Gson();
 
-        db.collection("TodoList").document(id)
-                .set(todo).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                loadData();
-            }
-        });
+        String json = gson.toJson(todoList);
+
+        editor.putString("TASKS", json);
+        editor.commit();
     }
 
     private void loadData() {
-        dialog.show();
-        if (todoList.size() > 0)
-            todoList.clear();
-        db.collection("TodoList")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        for (DocumentSnapshot doc : task.getResult()) {
-                            ToDo todo = new ToDo(doc.getString("id"),
-                                    doc.getString("title"),
-                                    doc.getString("detail"));
-                            todoList.add(todo);
-                        }
-                        adapter = new ListItemAdapter(TodoActivity.this, todoList);
-                        listItem.setAdapter(adapter);
-                        dialog.dismiss();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(TodoActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+        alertDialog.show();
+
+        // load tasks from preference
+        SharedPreferences sharedPrefs = getSharedPreferences(SHARED_PREFS_FILE, Context.MODE_PRIVATE);
+
+        Gson gson = new Gson();
+        String json = sharedPrefs.getString("TASKS", null);
+        Type type = new TypeToken<ArrayList<Todo>>() {}.getType();
+        ArrayList<Todo> arrayList = gson.fromJson(json, type);
+
+        if (arrayList != null)
+            todoList = arrayList;
+
+        myAdapter = new ListItemAdapter(TodoActivity.this, todoList);
+        myList.setAdapter(myAdapter);
+
+        alertDialog.dismiss();
     }
+
+    private void setReminder(int position){
+        TimeZone timeZone = TimeZone.getDefault();
+
+        Intent intent = new Intent(Intent.ACTION_INSERT)
+                .setData(CalendarContract.Events.CONTENT_URI)
+                .putExtra(CalendarContract.Events.TITLE, todoList.get(position).getTitle())
+                .putExtra(CalendarContract.Events.DESCRIPTION, todoList.get(position).getDetails())
+                .putExtra(CalendarContract.Events.HAS_ALARM, 1)
+                .putExtra(CalendarContract.Events.EVENT_TIMEZONE, timeZone.getID());
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+    }
+
+    public void deleteData(int position){
+        todoList.remove(position);
+
+        myAdapter = new ListItemAdapter(TodoActivity.this, todoList);
+        myList.setAdapter(myAdapter);
+
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_FILE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        Gson gson = new Gson();
+
+        String json = gson.toJson(todoList);
+
+        editor.putString("TASKS", json);
+        editor.commit();
+    }
+
 }
