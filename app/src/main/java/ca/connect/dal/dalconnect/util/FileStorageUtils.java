@@ -126,6 +126,8 @@ public class FileStorageUtils
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return null;
     }
