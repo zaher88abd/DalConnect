@@ -59,7 +59,7 @@ public class ChatActivity extends AppCompatActivity implements LocationListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatbot);
-
+        setTitle("Chat Bot");
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -105,6 +105,7 @@ public class ChatActivity extends AppCompatActivity implements LocationListener 
 
     /**
      * This function retrieves the corresponding message(sent/received) from the user/server
+     *
      * @param message
      * @param isUser
      */
@@ -126,6 +127,7 @@ public class ChatActivity extends AppCompatActivity implements LocationListener 
 
     /**
      * This function
+     *
      * @param userText
      */
     private void sendRequest(String userText) {
@@ -167,6 +169,7 @@ public class ChatActivity extends AppCompatActivity implements LocationListener 
 
     /**
      * This function returns the AI query response
+     *
      * @param response
      */
     private void onResult(final AIResponse response) {
@@ -208,9 +211,9 @@ public class ChatActivity extends AppCompatActivity implements LocationListener 
 
                 final Metadata metadata = result.getMetadata();
                 if (metadata != null) {
-                    Log.i(LOG_TAG, "quesry response not empty"+metadata);
+                    Log.i(LOG_TAG, "quesry response not empty" + metadata);
                 } else {
-                    System.out.println(Log.d(LOG_TAG,"Query returned empty response"+metadata.toString()));
+                    System.out.println(Log.d(LOG_TAG, "Query returned empty response" + metadata.toString()));
 
                 }
             }
