@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import ca.connect.dal.dalconnect.Model.ToDo;
+import ca.connect.dal.dalconnect.Model.Todo;
 import ca.connect.dal.dalconnect.R;
 import ca.connect.dal.dalconnect.TodoActivity;
 
@@ -18,74 +18,73 @@ import ca.connect.dal.dalconnect.TodoActivity;
  */
 
 class ListItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnCreateContextMenuListener
-{
-    ClickListener clickListener;
+        {
+        ClickListener clickListener;
 
+public TextView txtTitle, txtDetails;
 
-    TextView i_title, i_detail;
+public ListItemViewHolder(View v){
+        super(v);
+        v.setOnClickListener(this);
+        v.setOnCreateContextMenuListener(this);
 
-    public ListItemViewHolder(View itemView){
-        super(itemView);
-        itemView.setOnClickListener(this);
-        itemView.setOnCreateContextMenuListener(this);
+        txtTitle = v.findViewById(R.id.task_title);
+        txtDetails = v.findViewById(R.id.task_details);
+        }
 
-        i_title = (TextView) itemView.findViewById(R.id.task_title);
-        i_detail = (TextView) itemView.findViewById(R.id.task_details);
-    }
-
-    public void setClickListener(ClickListener clickListener) {
+public void setClickListener(ClickListener clickListener) {
         this.clickListener = clickListener;
-    }
+        }
 
-
-    @Override
-    public void onClick(View view) {
+@Override
+public void onClick(View view) {
         clickListener.onClick(view,getAdapterPosition(),false);
-    }
+        }
 
-    @Override
-    public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
+@Override
+public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
         contextMenu.setHeaderTitle("Select the action");
         contextMenu.add(0,0,getAdapterPosition(),"Delete");
         contextMenu.add(0,0,getAdapterPosition(),"Set Reminder");
+        }
 
-    }
-}
+        }
 
-public class ListItemAdapter extends RecyclerView.Adapter<ListItemViewHolder>{
+public class ListItemAdapter extends RecyclerView.Adapter<ListItemViewHolder>  {
 
-   TodoActivity mainActivity;
-    List<ToDo> todoList;
+    TodoActivity todoActivity;
+    private List<Todo> todoList;
 
-    public ListItemAdapter(TodoActivity mainActivity, List<ToDo> todoList) {
-        this.mainActivity = mainActivity;
+    public ListItemAdapter(TodoActivity todoActivity, List<Todo> todoList) {
+        this.todoActivity = todoActivity;
         this.todoList = todoList;
     }
 
     @Override
     public ListItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(mainActivity.getBaseContext());
+        LayoutInflater inflater = LayoutInflater.from(todoActivity.getBaseContext());
         View v = inflater.inflate(R.layout.list_item,parent,false);
         return new ListItemViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(ListItemViewHolder holder, int position) {
+        Todo todo = todoList.get(position);
 
-        holder.i_title.setText(todoList.get(position).getTitle());
-        holder.i_detail.setText(todoList.get(position).getDetailsT());
+        holder.txtTitle.setText(todo.getTitle());
+        holder.txtDetails.setText(todo.getDetails());
 
         holder.setClickListener(new ClickListener(){
             @Override
             public void onClick(View v, int position, boolean longTouch) {
-                mainActivity.title.setText(todoList.get(position).getTitle());
-                mainActivity.detail.setText(todoList.get(position).getDetailsT());
+                todoActivity.titleEditText.setText(todoList.get(position).getTitle());
+                todoActivity.detailEditText.setText(todoList.get(position).getDetails());
 
-                mainActivity.isUpdate = true;
-                mainActivity.idUpdate = todoList.get(position).getId();
+                todoActivity.isUpdate = true;
+                todoActivity.curPosition = position;
+                todoActivity.idUpdate = todoList.get(position).getId();
             }
         });
-
     }
 
     @Override
@@ -93,4 +92,3 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemViewHolder>{
         return todoList.size();
     }
 }
-
