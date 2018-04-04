@@ -76,6 +76,9 @@ public class FileStorageUtils
         catch (IOException e) {
             e.printStackTrace();
         }
+        catch (Exception e) {
+
+        }
 
     }
 
