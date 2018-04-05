@@ -1,6 +1,7 @@
 package ca.connect.dal.dalconnect.chat;
 
-import android.graphics.drawable.BitmapDrawable;
+import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,14 +13,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 
 import ca.connect.dal.dalconnect.R;
 import ca.connect.dal.dalconnect.chat.model.Message;
 import ca.connect.dal.dalconnect.util.AuthUtils;
 import ca.connect.dal.dalconnect.util.FileStorageUtils;
-import ca.connect.dal.dalconnect.util.PortraitUtils;
 
 /**
  * Created by gaoyounan on 2018/3/19.
@@ -28,16 +28,18 @@ import ca.connect.dal.dalconnect.util.PortraitUtils;
 public class ChatListAdapter extends BaseAdapter
 {
     private List<Message> messagelist;
-    private PortraitUtils portraitInstance;
+    private FileStorageUtils fileStorageUtils;
+    private Map<String, Bitmap> bitMapMemoryCache;
 
     public void addMessage(Message item) {
         messagelist.add(item);
         notifyDataSetChanged();
     }
 
-    public ChatListAdapter() {
+    public ChatListAdapter(Context context, Map<String, Bitmap> bitMapMemoryCache) {
         this.messagelist = new ArrayList<Message>();
-        portraitInstance = PortraitUtils.getInstance();
+        fileStorageUtils = FileStorageUtils.getInstance(context.getCacheDir());
+        this.bitMapMemoryCache = bitMapMemoryCache;
     }
 
     @Override
@@ -76,20 +78,9 @@ public class ChatListAdapter extends BaseAdapter
             TextView chat_text = (TextView) view.findViewById(R.id.id_chat_myself);
             TextView time_text_my = (TextView) view.findViewById(R.id.id_chat_time);
             time_text_my.setText(str);
-
-            BitmapDrawable bitmapDrawable = PortraitUtils.getInstance().getPortraitByName(message.getSenderPortrait());
-
-            if(bitmapDrawable != null)
-            {
-                my_portrait.setImageDrawable(PortraitUtils.getInstance().getPortraitByName(message.getSenderPortrait()));
-            }
-            else
-            {
-                FileStorageUtils.getInstance().loadImage(message.getSenderPortrait(), my_portrait);
-            }
-
-
             chat_text.setText(message.getText());
+
+            my_portrait.setImageBitmap(bitMapMemoryCache.get(message.getSenderPortrait()));
         }
         else
         {
@@ -101,20 +92,9 @@ public class ChatListAdapter extends BaseAdapter
 
             TextView time_text_other = (TextView) view.findViewById(R.id.id_chat_time_other);
             time_text_other.setText(str);
-
-            BitmapDrawable bitmapDrawable = PortraitUtils.getInstance().getPortraitByName(message.getSenderPortrait());
-
-            if(bitmapDrawable != null)
-            {
-                other_portrait.setImageDrawable(PortraitUtils.getInstance().getPortraitByName(message.getSenderPortrait()));
-            }
-            else
-            {
-                FileStorageUtils.getInstance().loadImage(message.getSenderPortrait(), other_portrait);
-            }
-
-
             chat_text.setText(message.getText());
+
+            other_portrait.setImageBitmap(bitMapMemoryCache.get(message.getSenderPortrait()));
         }
 
         return view;

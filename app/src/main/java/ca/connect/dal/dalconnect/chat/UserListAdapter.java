@@ -1,8 +1,8 @@
 package ca.connect.dal.dalconnect.chat;
 
 import android.content.Context;
-import android.graphics.drawable.BitmapDrawable;
-import android.support.v4.util.LruCache;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +18,6 @@ import java.util.Map;
 import ca.connect.dal.dalconnect.R;
 import ca.connect.dal.dalconnect.UserInformation;
 import ca.connect.dal.dalconnect.util.FileStorageUtils;
-import ca.connect.dal.dalconnect.util.PortraitUtils;
 
 /**
  * Created by gaoyounan on 2018/3/8.
@@ -27,18 +26,18 @@ import ca.connect.dal.dalconnect.util.PortraitUtils;
 public class UserListAdapter extends BaseAdapter
 {
     private List<UserInformation> user_list;
-    private PortraitUtils portraitInstance;
+    private FileStorageUtils fileStorageUtils;
 
+    private Context mContext;
     private Map<Integer, Integer> unReadMessageMap = new HashMap<Integer, Integer>();
-
     public UserListAdapter() {}
 
-    public UserListAdapter(List<UserInformation> user_list)
+    public UserListAdapter(List<UserInformation> user_list, Context context)
     {
         super();
         this.user_list = user_list;
-
-        portraitInstance = PortraitUtils.getInstance();
+        mContext = context;
+        fileStorageUtils = FileStorageUtils.getInstance(context.getCacheDir());
 
     }
 
@@ -94,22 +93,27 @@ public class UserListAdapter extends BaseAdapter
         tv_username.setText(user.getUsername());
         tv_country.setText(user.getCountry());
 
-        image_portrait.setTag(user.getUsername());
+        image_portrait.setTag(user.getUID());
 
         String portrait_name = user.getUserImage();
 
         if(portrait_name != null && !"".equals(portrait_name))
         {
-            BitmapDrawable bitmapDrawableTemp = portraitInstance.getPortraitByName(portrait_name);
+            Bitmap bitmap = fileStorageUtils.getPortraitByName(portrait_name);
 
-            if(bitmapDrawableTemp != null)
+            if(bitmap != null)
             {
-                image_portrait.setImageDrawable(bitmapDrawableTemp);
+                image_portrait.setImageBitmap(bitmap);
             }
             else
             {
-                FileStorageUtils.getInstance().loadImage(portrait_name , user.getUsername(), viewGroup);
+                fileStorageUtils.loadImage(portrait_name , user.getUID(), viewGroup, mContext.getResources());
             }
+        }
+        else
+        {
+            Bitmap bitmap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.icon);
+            image_portrait.setImageBitmap(bitmap);
         }
 
         return convertView;

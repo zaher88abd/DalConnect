@@ -5,8 +5,8 @@
 
     <ImageView
         android:id="@+id/id_image_other"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="300px"
+        android:layout_height="300px"
         android:padding="5dp"
         android:layout_alignParentLeft="true"
         android:src="@drawable/icon" />
