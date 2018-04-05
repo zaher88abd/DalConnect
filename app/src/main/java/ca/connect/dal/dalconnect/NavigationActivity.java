@@ -33,6 +33,7 @@ import com.google.firebase.storage.StorageReference;
 import java.io.File;
 
 import ca.connect.dal.dalconnect.chat.UserListFlagment;
+import ca.connect.dal.dalconnect.util.FileStorageUtils;
 
 public class NavigationActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -302,4 +303,10 @@ public class NavigationActivity extends AppCompatActivity
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        FileStorageUtils.getInstance(getCacheDir()).clearCacheFile();
+    }
 }

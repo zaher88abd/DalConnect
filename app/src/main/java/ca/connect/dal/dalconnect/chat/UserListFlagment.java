@@ -11,7 +11,6 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -31,10 +29,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import ca.connect.dal.dalconnect.LoginActivity;
-import ca.connect.dal.dalconnect.NavigationActivity;
 import ca.connect.dal.dalconnect.R;
 import ca.connect.dal.dalconnect.UserInformation;
 import ca.connect.dal.dalconnect.util.AuthUtils;
@@ -64,7 +60,7 @@ public class UserListFlagment extends Fragment
             super.handleMessage(msg);
             switch (msg.what) {
                 case 0:
-                    userListAdapter = new UserListAdapter(user_list);
+                    userListAdapter = new UserListAdapter(user_list, getContext());
                     listView.setAdapter(userListAdapter);
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 
@@ -135,6 +131,8 @@ public class UserListFlagment extends Fragment
         getActivity().setTitle("Friendlist");
 
         loadUserList();
+        //Map<String, Bitmap> mapTemp = new HashMap<String, Bitmap>();
+        //FileStorageUtils.getInstance(getContext().getCacheDir()).loadImage("123", mapTemp, null, getResources());
 
         return view;
     }
