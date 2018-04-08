@@ -107,14 +107,10 @@ Write a description of the final status of the project. Did you achieve all your
 - Chatbot(Completed)
 
 ## Sources
-Use IEEE citation style.
-What to include in your project sources:
-- Stock images
-- Design guides
-- Programming tutorials
-- Research material
-- Android libraries
-- Everything listed on the Dalhousie [*Plagiarism and Cheating*](https://www.dal.ca/dept/university_secretariat/academic-integrity/plagiarism-cheating.html)
-- Remember AC/DC *Always Cite / Don't Cheat* (see Lecture 0 for more info)
-
-[1] "Java (programming language)", En.wikipedia.org, 2018. [Online]. Available: https://en.wikipedia.org/wiki/Java_(programming_language).
+- [1]Android-Firebase-Chat.[On-line]. Availiable: https://github.com/hieuapp/android-firebase-chat [2018]
+- [2]Android中图片的三级cache策略  [On-line]. Availiable: https://blog.csdn.net/singwhatiwanna/article/details/9054001[2018]
+- [3]android bitmap compress 图片压缩  [On-line]. Availiable: https://blog.csdn.net/luhuajcdd/article/details/8948261[2018]
+- [5]https://stackoverflow.com/questions/20438627/getlastknownlocation-returns-null
+- [6]https://www.youtube.com/watch?v=QNb_3QKSmMk   
+- [5]android bitmap compress 图片压缩 [On-line]. Availiable: https://blog.csdn.net/luhuajcdd/article/details/8948261[2018]
+- [6]https://stackoverflow.com/questions/25190886/android-open-map-intent-with-directions-with-two-points
