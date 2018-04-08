@@ -14,6 +14,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.AsyncTask;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -42,7 +44,7 @@ public class ChatActivity extends AppCompatActivity implements LocationListener 
 
     public static final String LOG_TAG = ChatActivity.class.getName();
 
-    ListView conversationList;
+    RecyclerView conversationList;
     ImageButton sendKey;
     EditText inputText;
     AIConfiguration aiConfiguration;
@@ -87,17 +89,19 @@ public class ChatActivity extends AppCompatActivity implements LocationListener 
                     addMessage(text, true);
                     inputText.setText("");
                     sendRequest(text);
+
                 }
             }
         });
 
 
         conversationList = findViewById(R.id.ConversationList);
-        conversationList.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
-        conversationList.setStackFromBottom(true);
 
         messageList = new ArrayList<>();
         messageAdapter = new MessageAdapter(this, messageList);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        linearLayoutManager.setStackFromEnd(true);
+        conversationList.setLayoutManager(linearLayoutManager);
         conversationList.setAdapter(messageAdapter);
 
 
@@ -111,18 +115,20 @@ public class ChatActivity extends AppCompatActivity implements LocationListener 
      */
     private void addMessage(String message, boolean isUser) {
 
-        final MessageData chatMessage = new MessageData(isUser, "", "", "");
+        MessageData chatMessage = new MessageData(isUser, "", "", "");
         chatMessage.messageBody = message;
-        messageAdapter.add(chatMessage);
+        messageList.add(chatMessage);
         messageAdapter.notifyDataSetChanged();
+        conversationList.smoothScrollToPosition(messageList.size() - 1);
     }
 
     private void addMessage(String message, String extraLink, boolean isUser) {
-        final MessageData chatMessage = new MessageData(isUser, "", "", "");
+        MessageData chatMessage = new MessageData(isUser, "", "", "");
         chatMessage.messageBody = message;
         chatMessage.extraLink = extraLink;
-        messageAdapter.add(chatMessage);
+        messageList.add(chatMessage);
         messageAdapter.notifyDataSetChanged();
+        conversationList.smoothScrollToPosition(messageList.size() - 1);
     }
 
     /**
@@ -133,6 +139,7 @@ public class ChatActivity extends AppCompatActivity implements LocationListener 
     private void sendRequest(String userText) {
 
         final String contextString = String.valueOf(userText);
+
 
         @SuppressLint("StaticFieldLeak") final AsyncTask<String, Void, AIResponse> task = new AsyncTask<String, Void, AIResponse>() {
 
@@ -172,50 +179,56 @@ public class ChatActivity extends AppCompatActivity implements LocationListener 
      *
      * @param response
      */
+
+    boolean newTrestionRequest = true;
+    boolean newLibraryBook = true;
+
     private void onResult(final AIResponse response) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Log.d(LOG_TAG, "onResult");
-                Log.i(LOG_TAG, "Received success response");
+//                Log.d(LOG_TAG, "onResult");
+//                Log.i(LOG_TAG, "Received success response");
                 // logging response status on the console
                 final Status status = response.getStatus();
-                Log.i(LOG_TAG, "Status code: " + status.getCode());
-                Log.i(LOG_TAG, "Status type: " + status.getErrorType());
+//                Log.i(LOG_TAG, "Status code: " + status.getCode());
+//                Log.i(LOG_TAG, "Status type: " + status.getErrorType());
 
                 final Result result = response.getResult();
                 List<AIOutputContext> contextList = result.getContexts();
                 ArrayList<String> contextNames = new ArrayList<>();
                 for (AIOutputContext context : contextList) {
-                    Log.i(LOG_TAG, "context name: " + context.getName());
+//                    Log.i(LOG_TAG, "context name: " + context.getName());
                     contextNames.add(context.getName());
                 }
-                Log.i(LOG_TAG, "Resolved query: " + result.getResolvedQuery());
-                Log.i(LOG_TAG, "Action: " + result.getAction());
+//                Log.i(LOG_TAG, "Resolved query: " + result.getResolvedQuery());
+//                Log.i(LOG_TAG, "Action: " + result.getAction());
 
                 final String speech = result.getFulfillment().getSpeech();
-                Log.i(LOG_TAG, "Speech: " + speech);
+//                Log.i(LOG_TAG, "Speech: " + speech);
 
                 if (!TextUtils.isEmpty(speech))
                     addMessage(speech, false);
 
                 if (!contextNames.isEmpty() &&
-                        contextNames.contains("going") && contextNames.contains("car")) {
+                        contextNames.contains("going") && contextNames.contains("car") && newTrestionRequest) {
                     findFastRout();
-                }
-
-                if (!contextNames.isEmpty() &&
-                        contextNames.contains("library") && contextNames.contains("study_room")) {
+                    newTrestionRequest = false;
+                } else if (!contextNames.isEmpty() &&
+                        contextNames.contains("library") && contextNames.contains("study_room") && newLibraryBook) {
                     openLink();
-                }
-
-                final Metadata metadata = result.getMetadata();
-                if (metadata != null) {
-                    Log.i(LOG_TAG, "quesry response not empty" + metadata);
+                    newLibraryBook = false;
                 } else {
-                    System.out.println(Log.d(LOG_TAG, "Query returned empty response" + metadata.toString()));
-
+                    newLibraryBook = true;
+                    newTrestionRequest = true;
                 }
+//                final Metadata metadata = result.getMetadata();
+//                if (metadata != null) {
+//                    Log.i(LOG_TAG, "quesry response not empty" + metadata);
+//                } else {
+//                    System.out.println(Log.d(LOG_TAG, "Query returned empty response" + metadata.toString()));
+//
+//                }
             }
 
         });
@@ -245,6 +258,7 @@ public class ChatActivity extends AppCompatActivity implements LocationListener 
 //        Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
 //        startActivity(Intent.createChooser(intent, "Select an application"));
         addMessage("'", uri, false);
+        newTrestionRequest = false;
     }
 
     private void onError(final AIError error) {

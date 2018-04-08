@@ -5,22 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="10dp"
-    android:paddingStart="10dp"
     android:paddingEnd="10dp"
+    android:paddingStart="10dp"
     android:paddingTop="10dp"
     tools:context="ca.connect.dal.dalconnect.ChatActivity">
 
 
-
-
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="false"
-        android:layout_above="@+id/textMessage"
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/ConversationList"
+        android:scrollbars="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/textMessage"
+        android:layout_alignParentTop="false"
         android:layout_marginBottom="10dp"
-        android:divider="@null"></ListView>
+        android:divider="@null" />
 
     <EditText
         android:id="@+id/textMessage"
