@@ -3,16 +3,19 @@ Dal connect is an application that helps international students integrate into t
 
 
 ## Libraries
-Provide a list of **ALL** the libraries you used for your project. Example:
+Packaages:
+com.github.d-max:spots-dialog:0.7@aar: for spots dialog (Android alert dialog with moving dots ), can be found on GitHub
+com.rengwuxian.materialedittext:library:2.1.4: for material edittext, adding more of the material design guide to androis default Edittext, can be found on Github
 
-**google-gson:** Gson is a Java library that can be used to convert Java Objects into their JSON representation. It can also be used to convert a JSON string to an equivalent Java object. Source [here](https://github.com/google/gson)
 
 ## Installation Notes
-Installation instructions for markers.
+[1]Download and unzip the **Dalconnect** application folder<br>
+[2]Click on the file menu and select open project.<br>
+[3]Select the **Dalconnect** module in the Project window and then Click **Run** in the toolbar.<br>
+[4]In the Select Deployment Target window, select your device, and click OK.<br>
+[5]Android Studio will install Dalconnect on your connected device.<br>
 
 ## Code Examples
-You will encounter roadblocks and problems while developing your project. Share 2-3 'problems' that your team solved while developing your project. Write a few sentences that describe your solution and provide a code snippet/block that shows your solution. Example:
-
 **Problem 1: RestAPI not available for direction and room**
 
 we had problems with our RestAPI with regards user request for direction and room,this code segment was used to solve this issue
@@ -46,7 +49,7 @@ for (AIOutputContext context : contextList) {
 
 **Problem 2: Fetching data from Firebase is in an asynchronous way, which caused a lot of problems, E.g, in same case, only if all of the data is ready, can we continue to operate the following codes.<br/>**
 
-To wait for all of the data is readly, a handler was used. When data was ready, the handler sends a message to notify that the data is ready, and the App could continue by the following codes
+To wait for all of the data to be ready, a handler was used. When data was ready, the handler sends a message to notify that the data is ready, and the App could continue by the following codes
 
 ```
 //Sending the message
@@ -93,7 +96,6 @@ private Handler mHandler = new Handler(){
 
 
 ## Feature Section
-List all the main features of your application with a brief description of each feature.
 - **Building's index**:<br>
 The Dalhousie building's index helps to direct students from their present location to building locations they are unfamiliar with.
 - **User Chat**:<br>
@@ -123,7 +125,6 @@ Overall the project was a success, The **minimum**, **expected** and **bonus** f
 - [1]Android-Firebase-Chat.[On-line]. Availiable: https://github.com/hieuapp/android-firebase-chat [2018]
 - [2]Three-level cache strategy for images in Android  [On-line]. Availiable: https://blog.csdn.net/singwhatiwanna/article/details/9054001[2018]
 - [3]android bitmap compress-Image Compression  [On-line]. Availiable: https://blog.csdn.net/luhuajcdd/article/details/8948261[2018]
-- [5]https://stackoverflow.com/questions/20438627/getlastknownlocation-returns-null
-- [6]https://www.youtube.com/watch?v=QNb_3QKSmMk   
-- [5]android bitmap compress 图片压缩 [On-line]. Availiable: https://blog.csdn.net/luhuajcdd/article/details/8948261[2018]
+- [4]https://stackoverflow.com/questions/20438627/getlastknownlocation-returns-null
+- [5]https://www.youtube.com/watch?v=QNb_3QKSmMk   
 - [6]https://stackoverflow.com/questions/25190886/android-open-map-intent-with-directions-with-two-points
