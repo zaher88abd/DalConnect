@@ -2,6 +2,7 @@ package ca.connect.dal.dalconnect;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -22,7 +23,7 @@ import android.view.LayoutInflater;
  * checks if the action called is a request or response using the boolean.
  */
 
-public class MessageAdapter extends BaseAdapter {
+public class MessageAdapter extends RecyclerView.Adapter<ChatViewHlder> {
     private static LayoutInflater inflater = null;
     ArrayList<MessageData> chatMessageList;
     Context mContext;
@@ -34,20 +35,17 @@ public class MessageAdapter extends BaseAdapter {
 
     }
 
-    public void add(MessageData object) {
-        chatMessageList.add(object);
+    @Override
+    public ChatViewHlder onCreateViewHolder(ViewGroup parent, int viewType) {
+        final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_layout, parent, false);
+        return new ChatViewHlder(view,mContext);
     }
 
     @Override
-    public int getCount() {
-
-        return chatMessageList.size();
+    public void onBindViewHolder(ChatViewHlder holder, int position) {
+        holder.bindMessage(chatMessageList.get(position));
     }
 
-    @Override
-    public Object getItem(int i) {
-        return i;
-    }
 
     @Override
     public long getItemId(int i) {
@@ -55,57 +53,7 @@ public class MessageAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup parent) {
-        final MessageData message = (MessageData) chatMessageList.get(i);
-        View vi = view;
-
-        if (view == null)
-            vi = inflater.inflate(R.layout.activity_layout, null);
-
-        TextView txtMsg = (TextView) vi.findViewById(R.id.txtMessage);
-        txtMsg.setText(message.messageBody);
-
-        Button btnFunction = vi.findViewById(R.id.btn_function);
-
-        LinearLayout linearLayout = (LinearLayout) vi.findViewById(R.id.message_layout);
-        LinearLayout linearLayoutParent = (LinearLayout) vi.findViewById(R.id.message_layout_parent);
-
-        // checks if action is from User then align the message to the right
-        if (message.isUser) {
-            linearLayout.setGravity(Gravity.END);
-            txtMsg.setBackgroundResource(R.drawable.outgoing_message);
-            linearLayoutParent.setGravity(Gravity.END);
-        }
-        // checks if action is from the server and align the message to the left
-        else {
-            if (message.extraLink.contains("map")) {
-                btnFunction.setVisibility(View.VISIBLE);
-                btnFunction.setText(mContext.getString(R.string.direction));
-                btnFunction.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(message.extraLink));
-                        mContext.startActivity(Intent.createChooser(intent, "Select an application"));
-                    }
-                });
-                txtMsg.setVisibility(View.GONE);
-            }  if (message.extraLink.contains("https://")) {
-                btnFunction.setVisibility(View.VISIBLE);
-                txtMsg.setVisibility(View.GONE);
-                btnFunction.setText(mContext.getString(R.string.link));
-
-                btnFunction.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(message.extraLink));
-                        mContext.startActivity(browserIntent);
-                    }
-                });
-            }
-            linearLayout.setGravity(Gravity.START);
-            txtMsg.setBackgroundResource(R.drawable.incoming_message);
-            linearLayoutParent.setGravity(Gravity.START);
-        }
-        return vi;
+    public int getItemCount() {
+        return chatMessageList.size();
     }
 }
