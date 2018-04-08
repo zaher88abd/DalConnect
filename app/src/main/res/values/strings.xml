@@ -34,6 +34,7 @@
     <string name="app_name">DalConnect</string>
     <string name="direction">Direction</string>
     <string name="link">Link</string>
+    <string name="title_map_activity">Location Helper</string>
     <string-array name="buildings">
         <item>LSC,44.6357336,-63.5939558</item>
         <item>LSC-PSYCHOLOGY,44.6357336,-63.5939558</item>

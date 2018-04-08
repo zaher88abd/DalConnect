@@ -1,8 +1,10 @@
 package ca.connect.dal.dalconnect;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -43,7 +45,7 @@ public class NavigationActivity extends AppCompatActivity
 
     private TextView userName;
     private TextView userEmail;
-    private ImageView userImage;
+    private ImageView userImageView;
 
     private ProgressDialog progressDialog;
 
@@ -75,15 +77,6 @@ public class NavigationActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -99,7 +92,7 @@ public class NavigationActivity extends AppCompatActivity
 
         userName = header.findViewById(R.id.user_name);
         userEmail = header.findViewById(R.id.user_email);
-        userImage = header.findViewById(R.id.user_image);
+        userImageView = header.findViewById(R.id.user_image);
 
         setNavHeaderDetails();
     }
@@ -196,51 +189,44 @@ public class NavigationActivity extends AppCompatActivity
         return true;
     }
 
-    private void setNavHeaderDetails() {
-        try {
+    public void setNavHeaderDetails() {
+       runOnUiThread(new Runnable() {
+           @Override
+           public void run() {
+               try {
 
-            UserInformation userInfo = pref.getUserDetails();
+                   UserInformation userInfo = pref.getUserDetails();
 
-            String user_name = userInfo.getUsername();
-            String user_email = userInfo.getEmail();
-            String user_image = userInfo.getEmail();
+                   String user_name = userInfo.getUsername();
+                   String user_email = userInfo.getEmail();
+                   String user_image = userInfo.getUserImage();
 
-            userName.setText(user_name);
-            userEmail.setText(user_email);
+                   System.out.println("user_name: " + user_name);
+                   System.out.println("user_email: " + user_email);
+                   System.out.println("user_image: " + user_image);
 
-            String portraitId = pref.getPortraitId();
+                   userName.setText(user_name);
+                   userEmail.setText(user_email);
 
-            StorageReference ref = storageReference.child("Portraits/" + portraitId);
+                   if(user_image != null && !user_image.equalsIgnoreCase("")){
+                       //set glide
+                       Glide.with(NavigationActivity.this).load(user_image).into(userImageView);
+                   }
 
-            Log.i("TAG", "portraitId: " + portraitId);
-            Log.i("TAG", "ref: " + ref);
-            Log.i("TAG", "ref.getDownloadUrl(): " + ref.getDownloadUrl());
+                   else{
+                       // If theres no user image, show default image
+                       Glide.with(NavigationActivity.this)
+                               .load(getResources()
+                                       .getIdentifier("icon", "drawable", getPackageName()))
+                               .into(userImageView);
 
-            final File destinationFile = null;
+                   }
 
-            try {
-                ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        // Local temp file has been created
-
-                        Log.i("TAG", "uri: " + uri);
-
-                        Glide.with(NavigationActivity.this).load(uri).into(userImage);
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        // Handle any errors
-                    }
-                });
-            } catch (Exception e) {
-// Error
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+               } catch (Exception e) {
+                   e.printStackTrace();
+               }
+           }
+       });
     }
 
     public void preLogoutMessage() {
@@ -283,6 +269,9 @@ public class NavigationActivity extends AppCompatActivity
             int result = 0;
 
             try {
+                SharedPreferences settings = getSharedPreferences("Pref", Context.MODE_PRIVATE);
+                settings.edit().clear().apply();
+
                 firebaseAuth.signOut();
 
                 return result;

@@ -47,7 +47,8 @@
 
         <activity android:name=".TodoActivity" />
         <activity android:name=".ChatActivity" />
-        <activity android:name=".MapActivity" />
+        <activity android:name=".MapActivity"
+            android:label="@string/title_map_activity"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

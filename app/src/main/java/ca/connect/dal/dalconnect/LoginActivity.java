@@ -3,6 +3,7 @@ package ca.connect.dal.dalconnect;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -18,10 +19,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -33,7 +45,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private EditText editTextPassword;
     private TextView textViewSignup;
     private ProgressDialog progressDialog;
+
     private FirebaseAuth firebaseAuth;
+    private FirebaseStorage storage;
+    private StorageReference storageReference;
+
+    private Preferences pref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +64,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             startActivity(new Intent(getApplicationContext(), NavigationActivity.class)); //profile activity here
         }
 
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
+
+        pref = new Preferences(LoginActivity.this);
+
         setUpViews();
         setUpListeners();
         setUpValidationCheckers();
-
     }
 
     private void setUpViews() {
@@ -113,7 +134,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 //stop executing fuctions
                 return;
             }
-            progressDialog.setMessage("Registering User......");
+            progressDialog.setMessage("Checking. Please wait......");
             progressDialog.show();
 
             firebaseAuth.signInWithEmailAndPassword(email, password)
@@ -123,9 +144,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             progressDialog.dismiss();
                             if (task.isSuccessful()) {
 
-                                //uder registred succcefulluy\
-                                finish();
+                                FirebaseUser firebaseUser = task.getResult().getUser();
+                                System.out.println("firebaseUser: " + firebaseUser);
+                                System.out.println("firebaseUser UID: " + firebaseUser.getUid());
+
+                                getAndSaveUserInfo(firebaseUser);
+
+                                //login succcefulluy\
                                 startActivity(new Intent(getApplicationContext(), NavigationActivity.class));
+                                finish();
                             } else {
                                 showErrorDialog();
                             }
@@ -138,6 +165,92 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    public void getAndSaveUserInfo(final FirebaseUser firebaseUser){
+        try{
+            final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(firebaseUser.getUid());
+            databaseReference.addListenerForSingleValueEvent(
+                    new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            try{
+                                //Get user info from firebase datasnapshot
+                                String address = (String) dataSnapshot.child("address").getValue();
+                                String country = (String) dataSnapshot.child("country").getValue();
+                                String dalid = (String) dataSnapshot.child("dalid").getValue();
+                                String date = (String) dataSnapshot.child("date").getValue();
+                                String phoneNumber = (String) dataSnapshot.child("phonenumber").getValue();
+                                String program = (String) dataSnapshot.child("program").getValue();
+                                String startTerm = (String) dataSnapshot.child("startTerm").getValue();
+                                //String userImage = (String) dataSnapshot.child("userImage").getValue();
+                                String username = (String) dataSnapshot.child("username").getValue();
+                                String email = firebaseUser.getEmail();
+
+                                final UserInformation userInformation = new UserInformation();
+                                userInformation.setAddress(address);
+                                userInformation.setCountry(country);
+                                userInformation.setDalid(dalid);
+                                userInformation.setDate(date);
+                                userInformation.setPhonenumber(phoneNumber);
+                                userInformation.setProgram(program);
+                                userInformation.setStartTerm(startTerm);
+                                userInformation.setUsername(username);
+                                userInformation.setEmail(email);
+
+
+                                String portraitId = firebaseAuth.getCurrentUser().getUid();
+
+                                StorageReference ref = storageReference.child("Portraits/" + portraitId);
+
+                                Log.i("TAG", "portraitId: " + portraitId);
+                                Log.i("TAG", "ref: " + ref);
+                                Log.i("TAG", "ref.getDownloadUrl(): " + ref.getDownloadUrl());
+
+                                try {
+                                    ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
+                                            // Local temp file has been created
+
+                                            Log.i("TAG", "uri: " + uri);
+
+                                            userInformation.setUserImage(uri.toString());
+
+
+                                            Log.i("TAG", "before pref");
+                                            Log.i("TAG", "userInfo.getUserImage(): " +  userInformation.getUserImage());
+                                            Log.i("TAG", "userInfo.getDate(): " +  userInformation.getDate());
+
+                                            //Save User info into shared preferences
+                                            pref.saveUserDetails(userInformation);
+
+                                            Log.i("TAG", "after pref");
+
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception exception) {
+                                            // Handle any errors
+                                        }
+                                    });
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+
+                            } catch (Exception e){
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void onClick(View view) {
         if (view == buttonSignIn) {
@@ -145,8 +258,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
 
         if (view == textViewSignup) {
-            finish();
             startActivity(new Intent(this, RegistrationActivity.class));
+            finish();
 
             ///login activity
         }

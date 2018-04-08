@@ -172,7 +172,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
          */
         userInformation.setUserImage(portrait_id);
 
-        FirebaseUser user =firebaseAuth.getCurrentUser();
+        FirebaseUser user = firebaseAuth.getCurrentUser();
         databaseReference.child("/users").child(user.getUid()).setValue(userInformation);
 
         /**

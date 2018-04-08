@@ -37,6 +37,7 @@ public class Preferences {
         editor.putString("PhoneNumber", user.getPhonenumber());
         editor.putString("Program", user.getProgram());
         editor.putString("StartTerm", user.getStartTerm());
+        editor.putString("UserImage", user.getUserImage());
 
         // commit changes
         editor.commit();
@@ -54,7 +55,7 @@ public class Preferences {
         user.setPhonenumber(pref.getString("PhoneNumber", null));
         user.setProgram(pref.getString("Program", null));
         user.setStartTerm(pref.getString("StartTerm", null));
-        user.setStartTerm(pref.getString("StartTerm", null));
+        user.setUserImage(pref.getString("UserImage", null));
 
         return user;
     }

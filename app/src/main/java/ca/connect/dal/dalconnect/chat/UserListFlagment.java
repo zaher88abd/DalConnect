@@ -128,7 +128,7 @@ public class UserListFlagment extends Fragment
         listView = (ListView) view.findViewById(R.id.lv_id);
 
 
-        getActivity().setTitle("Friendlist");
+        getActivity().setTitle("Friends List");
 
         loadUserList();
         //Map<String, Bitmap> mapTemp = new HashMap<String, Bitmap>();
