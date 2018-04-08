@@ -3,9 +3,9 @@ Dal connect is an application that helps international students integrate into t
 
 
 ## Libraries
-Packaages:
-com.github.d-max:spots-dialog:0.7@aar: for spots dialog (Android alert dialog with moving dots ), can be found on GitHub
-com.rengwuxian.materialedittext:library:2.1.4: for material edittext, adding more of the material design guide to androis default Edittext, can be found on Github
+bumptech-An image loading and caching library for Android focused on smooth scrolling. [Source here](http://bumptech.github.io/glide/)<br>
+com.github.d-max:spots-dialog:0.7@aar: for spots dialog (Android alert dialog with moving dots ).[Source here](https://github.com/d-max/spots-dialog)<br>
+com.rengwuxian.materialedittext:library:2.1.4: for material edittext, adding more of the material design guide to androis default Edittext,[Source here](https://github.com/rengwuxian/MaterialEditText)<br>
 
 
 ## Installation Notes
