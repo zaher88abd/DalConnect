@@ -13,27 +13,40 @@ Installation instructions for markers.
 ## Code Examples
 You will encounter roadblocks and problems while developing your project. Share 2-3 'problems' that your team solved while developing your project. Write a few sentences that describe your solution and provide a code snippet/block that shows your solution. Example:
 
-**Problem 1: We needed a method to calculate a Fibonacci sequence**
+**Problem 1: RestAPI not available for direction and room**
 
-A short description.
+we had problems with our RestAPI with regards user request for direction and room,this code segment was used to solve this issue
 ```
-// The method we implemented that solved our problem
-public static int fibonacci(int fibIndex) {
-    if (memoized.containsKey(fibIndex)) {
-        return memoized.get(fibIndex);
-    } else {
-        int answer = fibonacci(fibIndex - 1) + fibonacci(fibIndex - 2);
-        memoized.put(fibIndex, answer);
-        return answer;
-    }
-}
+for (AIOutputContext context : contextList) {
+//                    Log.i(LOG_TAG, "context name: " + context.getName());
+                    contextNames.add(context.getName());
+                }
+//                Log.i(LOG_TAG, "Resolved query: " + result.getResolvedQuery());
+//                Log.i(LOG_TAG, "Action: " + result.getAction());
 
-// Source: Wikipedia Java [1]
+                final String speech = result.getFulfillment().getSpeech();
+//                Log.i(LOG_TAG, "Speech: " + speech);
+
+                if (!TextUtils.isEmpty(speech))
+                    addMessage(speech, false);
+
+                if (!contextNames.isEmpty() &&
+                        contextNames.contains("going") && contextNames.contains("car") && newTrestionRequest) {
+                    findFastRout();
+                    newTrestionRequest = false;
+                } else if (!contextNames.isEmpty() &&
+                        contextNames.contains("library") && contextNames.contains("study_room") && newLibraryBook) {
+                    openLink();
+                    newLibraryBook = false;
+                } else {
+                    newLibraryBook = true;
+                    newTrestionRequest = true;
+                }
 ```
 
-**Problem 2: Fetching data from Firebase is in an asynchronous way, which caused a lot of problems, E.g, in same case, only if once all of the data is ready, can we continue to operate the following codes.<br/>**
+**Problem 2: Fetching data from Firebase is in an asynchronous way, which caused a lot of problems, E.g, in same case, only if all of the data is ready, can we continue to operate the following codes.<br/>**
 
-To wait for all of the data is readly, I was using Handler. When data is ready,  handler will send a message to notify data is ready, and the App could continue the following codes
+To wait for all of the data is readly, a handler was used. When data was ready, the handler sends a message to notify that the data is ready, and the App could continue by the following codes
 
 ```
 //Sending the message
@@ -91,7 +104,7 @@ This is a list of important tasks that new international students need to do at 
 The Chat bot will help Students handle simple queries e.g. provide student with information about how to get a sim card as well as other informations.
 
 ## Final Project Status
-Write a description of the final status of the project. Did you achieve all your goals? What would be the next step for this project (if it were to continue)?
+Overall the project was a success, The **minimum**, **expected** and **bonus** functionalities were all implemented, and our team was able to achieve all the goals that were set for this project. In future works with regards to this application, we would like to add more functionality as well as fine tune the overall design of the application. Also if given permission we would want this application to be accessible to new students of Dalhousie as we believe that **Dalconnect** is a vital application that will help new students integrate into the Dalhousie environment.
 
 #### Minimum Functionality
 - Building's index (Completed)
@@ -108,8 +121,8 @@ Write a description of the final status of the project. Did you achieve all your
 
 ## Sources
 - [1]Android-Firebase-Chat.[On-line]. Availiable: https://github.com/hieuapp/android-firebase-chat [2018]
-- [2]Android中图片的三级cache策略  [On-line]. Availiable: https://blog.csdn.net/singwhatiwanna/article/details/9054001[2018]
-- [3]android bitmap compress 图片压缩  [On-line]. Availiable: https://blog.csdn.net/luhuajcdd/article/details/8948261[2018]
+- [2]Three-level cache strategy for images in Android  [On-line]. Availiable: https://blog.csdn.net/singwhatiwanna/article/details/9054001[2018]
+- [3]android bitmap compress-Image Compression  [On-line]. Availiable: https://blog.csdn.net/luhuajcdd/article/details/8948261[2018]
 - [5]https://stackoverflow.com/questions/20438627/getlastknownlocation-returns-null
 - [6]https://www.youtube.com/watch?v=QNb_3QKSmMk   
 - [5]android bitmap compress 图片压缩 [On-line]. Availiable: https://blog.csdn.net/luhuajcdd/article/details/8948261[2018]
